@@ -16,7 +16,13 @@ var flash = require('connect-flash');
 var passport = require('passport');
 var session = require('express-session');
 
+var fs = require('fs');
 var https = require('https');
+
+// https 키 세팅
+var privateKey  = fs.readFileSync('cert/server.key', 'utf8');
+var certificate = fs.readFileSync('cert/server.crt', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
 
 // mongodb
 var mongoose = require('mongoose');
@@ -116,10 +122,8 @@ app.use('/cart', cart);
 app.use('/qna', qna);
 
 // port 정보 및 콘솔 
-var server = app.listen(port, function(){
-  
-    console.log('express framework page port ' + port);
-});
+var httpsServer = https.createServer(credentials, app);
+var server = httpsServer.listen(port);
 
 var listen = require('socket.io');
 var io = listen(server);
