@@ -1,0 +1,118 @@
+<% include ../header.ejs %>
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <div class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">내 정보수정</h3>
+            </div>
+            <div class="panel-body">
+                <form role="form" action="" id="join_form" method="post">
+                    <fieldset>
+                        
+                        <div class="form-group">
+                            <input class="form-control" placeholder="user_id" name="user_id" type="text" value="<%= user.user_id %>" autofocus="" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="Password" name="password" type="password" value="<%= user.password %>" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="Password 확인" name="password2" type="password" value="<%= user.password %>" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="displayname" name="displayname" type="text" value="<%= user.displayname %>" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="hyperledgerid" name="hyperledgerid" type="text" value="<%= user.hyperledgerid %>" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="hyperledgerpwd" name="hyperledgerpwd" type="password" value="<%= user.hyperledgerpwd %>" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="onlyHangul" placeholder="user_name" name="user_name" type="text" value="<%= user.user_name %>" autofocus="" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="onlyNumber" placeholder="user_phone" name="user_phone" type="text" value="<%= user.user_phone %>" required="">
+                        </div>
+                        <div class="form-group">
+                            <select name="user_sex" class="form-control" >
+                                <%  var tmp = user.user_sex;
+                                    if(tmp === "M") { %>
+                                    <option value="M">M</option>
+                                    <option value="F">F</option>
+                                <% }else{ %> 
+                                    <option value="F">F</option>
+                                    <option value="M">M</option>
+                                <% } %> 
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="date" name="user_birth" class="form-control" value="<%= user.user_birth %>">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="E-Mail" name="user_email" type="email" value="<%= user.user_email %>" autofocus="" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="address" name="user_addr" type="text" value="<%= user.user_addr %>" readonly value="" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="detail_address" name="user_addr2" type="text" value="<%= user.user_addr2 %>" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="onlyNumber" placeholder="user_post" name="user_post" type="text" value="<%= user.user_post %>" required="">
+                            <span style="margin-top:10px" class="btn btn-primary" onclick="setDaumPostcode()">우편번호 찾기</span>
+                        </div>
+                        
+                        <!-- Change this to a button or input when using this as a form -->
+                        <input type="submit" class="btn btn-lg btn-success btn-block" value="수정하기">
+                        <!--
+                        <div style="margin-top: 10px">
+                            <a href="/auth/facebook" class="btn btn-lg btn-primary btn-block">
+                            <i class="fa fa-facebook" aria-hidden="true"></i> 페이스북 회원수정
+                            </a>
+                        </div>
+                        -->
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+(function(){
+    $(document).ready(function() {
+        $('#join_form').submit(function(){
+            var $usernameInput = $('#join_form input[name=user_id]');
+            var $passwordInput = $('#join_form input[name=password]');
+            var $passwordInput2 = $('#join_form input[name=password2]');
+            var $displayname = $('#join_form input[name=displayname]');
+
+            if(!$usernameInput.val()){
+                alert("아이디를 입력해주세요.");
+                $usernameInput.focus();
+                return false;
+            }
+            if(!$passwordInput.val()){
+                alert("패스워드를 입력해주세요.");
+                $passwordInput.focus();
+                return false;
+            }
+            if(!$passwordInput2.val()){
+                alert("확인 패스워드를 입력해주세요.");
+                $passwordInput2.focus();
+                return false;
+            }
+            if(!$displayname.val()){
+                alert("이름을 입력해주세요.");
+                $displayname.focus();
+                return false;
+            }
+            if($passwordInput.val() !== $passwordInput2.val()){
+                alert("패스워드와 확인용패스워드를 똑같이 입력해주세요.");
+                return false;
+            }
+            return true;
+        });
+    });
+})();
+</script>
+<% include ../footer.ejs %>

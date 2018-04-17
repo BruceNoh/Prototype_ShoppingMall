@@ -1,0 +1,31 @@
+<% include ../header.ejs %>
+    <form action="" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_csrf" value="<%=csrfToken%>" /><!-- 토큰발행 -->
+        <table class="table table-bordered">
+            <tr>
+                <th>제품명</th>
+                <td><input type="text" name="name" class="form-control" value="<%=product.name%>"/></td>
+            </tr>
+            <tr>
+                <th>가격</th>
+                <td><input type="text" name="price" class="form-control" value="<%=product.price%>"/></td>
+            </tr>
+            <tr>
+                <th>섬네일</th>
+                <td>
+                    <input type="file" name="thumbnail" />
+                    <% if(product.thumbnail){ %>
+                    <a href="/uploads/<%=product.thumbnail%>" target="_blank">업로드 이미지 보기</a>
+                    <% } %>
+                </td>
+            </tr>
+            <tr>
+                <th>설명</th>
+                <td><input type="text" name="description" class="form-control" value="<%=product.description%>"/></td>
+            </tr>
+        </table>
+        <a href="/admin/products" class="btn btn-default">목록으로</a>
+        <button class="btn btn-primary">수정하기</button>
+    </form>
+
+<% include ../footer.ejs %>

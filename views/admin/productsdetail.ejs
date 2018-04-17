@@ -1,0 +1,175 @@
+<% include ../header.ejs %>
+    
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <%=product.name%>
+        </div>
+        <div class="panel-body">
+            <div style="padding-bottom: 10px">
+                <%=product.getDate.year%>년 
+                <%=product.getDate.month%>월 
+                <%=product.getDate.day%>일
+            </div>
+
+            <% if(product.thumbnail){%>
+                <p>
+                    <img src="/uploads/<%=product.thumbnail%>" style="max-width: 100%"/>
+                </p>
+            <% } %>
+            <%-product.description%>
+            <!-- 댓글영역  -->
+            <hr/>
+                    <div id="sibal"></div>
+                    <div id="comment_area">
+
+                        <% comments.forEach(function(comment){ %> 
+                            <div>
+                                <!-- 댓글 -->
+                                <div id="commentreple"> 
+                                    <%= comment.content %> 
+                                    ( <a class='comment_delete' comment_id='<%= comment.id %>'>댓글삭제</a> )
+                                </div>
+                            </div>    
+                        <% }); %>
+                        </div>
+                    <div>
+        <!-- 댓글영역  -->
+        <div>
+            <br/>
+            Comments
+            <form id="commentForm" action="" method="post">
+                <input type="hidden" name="product_id" value="<%=product.id%>" />
+                <textarea class="form-control" name="content"></textarea>
+                <button class="btn btn-primary" style="margin-top: 10px">댓글작성</button>
+            </form>
+        </div>
+        <!-- 댓글영역  -->
+        </div>
+    </div>
+ 
+    <a href="/admin/products" class="btn btn-default">목록으로</a>
+    <a href="/admin/products/edit/<%=product.id%>" class="btn btn-primary">수정</a>
+
+    <script>
+        (function(){
+            // 댓글 작성
+                $(document).ready(function() {
+                    $('#commentForm').submit(function(){ // commentForm 전송함수
+                        var $contentVal = $(this).children('textarea[name=content]').val(); // 폼 데이터를 contentVal로 받는다.
+                        // alert($contentVal);
+                        // 댓글이 있을 경우
+                        if($contentVal){
+
+                            $.ajax({
+                                // 라우트에 있는 객체를 url과 매핑해서 실행
+                                url : '/admin/products/ajax_comment/insert',
+                                type : 'POST',
+                                data : $(this).serialize(), // 키필드에 맞게 세팅
+                            }).done(function(args){
+
+                                console.log(args.message);
+                                // 댓글 작성하면 화면에 보이게 하기, admin.js에서 success 전달받은 후
+                                if(args.message === "success"){
+                                    $('#comment_area').append(
+                                        '<div>' + args.content + "( <a class='comment_delete' comment_id='" + args.id + "'>삭제</a> ) </div>"
+                                    );
+                                    $('#commentForm textarea[name=content]').val("");
+                                }
+                            }).fail(function(args){
+                                
+                                console.log(args);
+                            });
+                        }else{
+                            alert('댓글을 입력해주세요');
+                        }
+                        return false;
+                    });
+
+            // 리플 작성
+                    $('#repleForm2').submit(function(){ // repleForm2 전송함수
+                        var $repleVal = $(this).children('textarea[name=reple2]').val(); // 폼 데이터를 repleVal 받는다.
+                        // alert($repleVal);
+                        // 댓글이 있을 경우
+                        if($repleVal){
+
+                            $.ajax({
+                                // 라우트에 있는 객체를 url과 매핑해서 실행
+                                url : '/admin/products/ajax_comment/repleinsert',
+                                type : 'POST',
+                                data : $(this).serialize(), // 키필드에 맞게 세팅
+                            }).done(function(args){
+
+                                console.log(args.message);
+                                // 댓글 작성하면 화면에 보이게 하기, admin.js에서 success 전달받은 후
+                                if(args.message === "success"){
+                                    $('#sibal').append(
+                                        '<div>' + args.content + "( <a class='reple_delete' reple_id='" + args.id + "'>삭제</a> ) </div>"
+                                    );
+                                    $('#repleForm2 textarea[name=reple2]').val("");
+                                }
+                            }).fail(function(args){
+                                
+                                console.log(args);
+                            });
+                        }else{
+                            alert('리플을 입력해주세요');
+                        }
+                        return false;
+                    });
+
+            // 이 부분 설명 다시 필요함.
+            $(document).on('click' , '.comment_delete' , function(){
+                if(confirm('삭제하시겠습니까?')){ //확인창 예 눌렀을 시만 진행
+                    // 삭제할 때 댓글의 div까지 삭제해야 하기 때문에 클릭한 시점
+                    // parent().remove() 부모를 삭제한다.
+                    // self는 ajax의 url을 호출한다.
+                    var $self = $(this);
+                    $.ajax(
+                        {
+                            url: '/admin/products/ajax_comment/delete',
+                            type: 'POST',
+                            data: { 
+                                    comment_id : $self.attr('comment_id') 
+                                },
+                        }
+                    )
+                    .done(function() {
+                        $self.parent().remove();
+                        alert("삭제가 완료되었습니다.");
+                    })
+                    .fail(function(args) {
+                        console.log(args);
+                    });
+                }
+            });
+
+            // 리플 삭제
+            $(document).on('click' , '.reple_delete' , function(){
+                if(confirm('삭제하시겠습니까?')){ //확인창 예 눌렀을 시만 진행
+                    // 삭제할 때 댓글의 div까지 삭제해야 하기 때문에 클릭한 시점
+                    // parent().remove() 부모를 삭제한다.
+                    // self는 ajax의 url을 호출한다.
+                    var $self = $(this);
+                    $.ajax(
+                        {
+                            url: '/admin/products/ajax_comment/repledelete',
+                            type: 'POST',
+                            data: { 
+                                    reple_id : $self.attr('reple_id') 
+                                },
+                        }
+                    )
+                    .done(function() {
+                        $self.parent().remove();
+                        alert("삭제가 완료되었습니다.");
+                    })
+                    .fail(function(args) {
+                        console.log(args);
+                    });
+                }
+            });
+        });
+    })();
+    </script>
+ 
+<% include ../footer.ejs %>

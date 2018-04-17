@@ -1,0 +1,101 @@
+<% include ../header.ejs %>
+    <form action="" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_csrf" value="<%=csrfToken%>" /><!-- 토큰발행 -->
+        
+        <table class="table table-bordered">
+            <tr>
+                <th colspan="2">1 : 1 Question</th>
+            </tr>
+            <tr>
+                <th>이   름</th>
+                <td><input type="text" name="qnaname" class="form-control" value="<%= qna.username %>"/></td>
+            </tr>
+            <tr>
+                <th>분   류</th>
+                <td>
+                    <select class="form-control">
+                        <option value="bunryu1">교환&반품</option>
+                        <option value="bunryu2">배송변경&취소</option>
+                        <option value="bunryu3">결제&입금</option>
+                        <option value="bunryu4">배송&상품</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>이   메   일</th>
+                <td><input type="text" name="qnaemail" class="form-control"/></td>
+            </tr>
+            <tr>
+                <th>핸   드   폰</th>
+                <td><input type="text" name="qnaphone" class="form-control"/></td>
+            </tr>
+            <tr>
+                <th>제   목</th>
+                <td><input type="text" name="qnatitle" class="form-control"/></td>
+            </tr>
+            <tr>
+                <th>비 밀 번 호</th>
+                <td><input type="text" name="qnapwd" class="form-control"/></td>
+            </tr>
+            <tr>
+                <th>내   용</th>
+                <td><textarea name="qnacontent" class="form-control"/></textarea></td>
+            </tr>
+        </table>
+        
+        <button class="btn btn-primary">질문하기</button>
+    </form>
+
+    <!-- 스타일관련 -->
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/summernote.css" rel="stylesheet">
+    <!-- 자바스크립트관련 -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/summernote.js"></script>
+    <!-- 한글관련 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/lang/summernote-ko-KR.min.js"></script>
+
+    <script>
+
+        // 위지윅에서 이미지 업로드 후 작성하기 전 remove하여 makeError 예방
+        $('#editForm').submit(function(){
+            // 해당 위지익 업로드 이미지를 리무브 해준다.
+            $('input[name=files]').remove();
+        });
+
+        // 위지윅 이미지 데이터가 ajax 배열로 담겨서 업로드한다.
+        $(document).ready(function(){
+
+            $('#summernote').summernote({
+
+                lang: 'ko-KR',
+                height: 300,
+                callbacks : {
+                    onImageUpload : function(files){
+                        sendFile(files[0]);
+                    }
+                }
+            });
+        });
+
+        // ajax로 데이터를 전달하는데 backend 라우팅으로 파일만 내보내고
+        // insertImage라는 api를 통해 url만 넣어주면 화면의 이미지를 볼 수 있다.
+        function sendFile(file, editor, welEditable){
+
+            data = new FormData();
+            data.append("thumbnail", file);
+            
+            $.ajax({
+
+                data : data,
+                type : "POST",
+                url : '/admin/products/ajax_summernote/',
+                cache : false,
+                contentType : false,
+                processData : false,
+                success : function(url){
+                    $('#summernote').summernote("insertImage", url);
+                }
+            });
+        }
+    </script>
+
+<% include ../footer.ejs %>

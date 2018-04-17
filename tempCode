@@ -1,0 +1,30 @@
+                                <!-- 리플 출력영역 -->
+                                &nbsp;&nbsp;&nbsp;   
+                                <% reples.forEach(function(reples){ %>                             
+                                    <% if(reples.comments_id == comment.id){ %>
+                                        <br/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;리플&nbsp;
+                                        <%= reples.content %>
+                                        ( <a class='reple_delete' reple_id='<%= reples.id %>'>리플삭제</a> )
+                                    <% }; %>
+                                <% }); %> 
+                                <!-- 리플 출력영역 -->
+                                
+                                    <!-- 리플 작성영역 -->
+                                    <br/><br/>&nbsp;&nbsp;&nbsp;리플작성하기
+                                    <div id="reple_area">
+                                        <form id="repleForm2" action="" method="post">
+                                            <input type="hidden" name="product_id" value="<%=product.id%>" />
+                                            <input type="hidden" name="comment_id" value="<%=comment.id%>" />
+                                                &nbsp;&nbsp;&nbsp;<textarea class="" name="reple2"></textarea>
+                                                &nbsp;&nbsp;&nbsp;<button class="btn btn-primary" style="margin-top: 10px">리플작성</button>
+                                        </form>
+                                    </div>
+                                    <!-- 리플 작성영역 -->
+
+
+
+
+
+
+                                    

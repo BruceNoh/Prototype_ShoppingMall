@@ -1,0 +1,289 @@
+<% include ../header.ejs %>
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <div class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">회원가입</h3>
+            </div>
+            <div class="panel-body">
+                <form role="form" action="" id="join_form" method="post">
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="user_id" name="user_id" type="text" autofocus="" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="Password" name="password" type="password" value="" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="Password 확인" name="password2" type="password" value="" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="displayname" name="displayname" type="text" value="" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="hyperledgerid" name="hyperledgerid" type="text" value="" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="hyperledgerpwd" name="hyperledgerpwd" type="password" value="" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="onlyHangul" placeholder="user_name" name="user_name" type="text" autofocus="" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="onlyNumber" placeholder="user_phone" name="user_phone" type="text" value="" required="">
+                        </div>
+                        <div class="form-group">
+                            <select name="user_sex" class="form-control" > 
+                                <option value="M" selected="selected">M</option> 
+                                <option value="F">F</option> 
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="date" name="user_birth" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="E-Mail" name="user_email" type="email" autofocus="" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="address" name="user_addr" type="text" readonly value="" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="detail_address" name="user_addr2" type="text" value="" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="onlyNumber" placeholder="user_post" name="user_post" type="text" value="" required="">
+                            <span style="margin-top:10px" class="btn btn-primary" onclick="setDaumPostcode()">우편번호 찾기</span>
+                        </div>
+                        
+                        <!-- Change this to a button or input when using this as a form -->
+                        <input type="submit" class="btn btn-lg btn-success btn-block" value="가입하기">
+                        <div style="margin-top: 10px">
+                            <a href="/auth/facebook" class="btn btn-lg btn-primary btn-block">
+                            <i class="fa fa-facebook" aria-hidden="true"></i> 페이스북 회원가입
+                            </a>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- iamport daum address api -->
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script type="text/javascript">
+
+(function(){
+    $(document).ready(function() {
+
+            $('#join_form').submit(function(){
+
+                var $useridInput = $('#join_form input[name=user_id]');
+                var $passwordInput = $('#join_form input[name=password]');
+                var $passwordInput2 = $('#join_form input[name=password2]');
+                var $displayname = $('#join_form input[name=displayname]');
+                var $hyperledgerid = $('#join_form input[name=hyperledgerid]');
+                var $hyperledgerpwd = $('#join_form input[name=hyperledgerpwd]');
+                var $user_name = $('#join_form input[name=user_name]');
+                var $user_phone = $('#join_form input[name=user_phone]');
+                var $user_sex = $('#join_form input[name=user_sex]');
+                var $user_birth = $('#join_form input[name=user_birth]');
+                var $user_email = $('#join_form input[name=user_email]');
+                var $user_addr = $('#join_form input[name=user_addr]');
+                var $user_addr2 = $('#join_form input[name=user_addr2]');
+                var $user_post = $('#join_form input[name=user_post]');
+
+                if(!$useridInput.val()){
+                    alert("아이디를 입력해주세요.");
+                    $useridInput.focus();
+                    return false;
+                }
+                if(!$passwordInput.val()){
+                    alert("확인 패스워드를 입력해주세요.");
+                    $passwordInput2.focus();
+                    return false;
+                }
+                if(!$passwordInput2.val()){
+                    alert("확인 패스워드를 입력해주세요.");
+                    $passwordInput2.focus();
+                    return false;
+                }
+                if(!$displayname.val()){
+                    alert("닉네임을 입력해주세요.");
+                    $displayname.focus();
+                    return false;
+                }
+                if($passwordInput.val() !== $passwordInput2.val()){
+                    alert("패스워드와 확인용패스워드를 똑같이 입력해주세요.");
+                    return false;
+                }
+                if(!$hyperledgerid.val()){
+                    alert("하이퍼레저아이디 입력해주세요.");
+                    $hyperledgerid.focus();
+                    return false;
+                }
+                if(!$hyperledgerpwd.val()){
+                    alert("하이퍼레저비밀번호 입력해주세요.");
+                    $hyperledgerpwd.focus();
+                    return false;
+                }
+                if(!$user_name.val()){
+                    alert("이름을 입력해주세요.");
+                    $$user_name.focus();
+                    return false;
+                }
+                if(!$user_phone.val()){
+                    alert("연락처를 입력해주세요.");
+                    $$user_phone.focus();
+                    return false;
+                }
+                // if(!$user_sex.val()){
+                //     alert("성별을 선택해주세요.");
+                //     $user_sex.focus();
+                //     return false;
+                // }
+                if(!$user_birth.val()){
+                    alert("생일을 입력해주세요.");
+                    $user_birth.focus();
+                    return false;
+                }
+                if(!$user_email.val()){
+                    alert("이메일을 입력해주세요.");
+                    $user_email.focus();
+                    return false;
+                }
+                if(!$user_addr.val()){
+                    alert("주소를 입력해주세요.");
+                    $user_addr.focus();
+                    return false;
+                }
+                if(!$user_addr2.val()){
+                    alert("상세주소를 입력해주세요.");
+                    $user_addr2.focus();
+                    return false;
+                }
+                if(!$user_post.val()){
+                    alert("우편번호를 입력해주세요.");
+                    $user_post.focus();
+                    return false;
+                }
+                return true;
+            });
+
+
+
+            // // 영문+숫자모드
+            // $user_id = $.trim($("#user_id").val());	
+	
+            // if(!user_id.value.match(/^[a-z0-9_]+$/)){
+                
+            //     alert("영문소문자 및 숫자만 입력해주세요");
+            //     user_id.value="";
+            //     user_id.focus();
+            //     return false;
+            // }
+
+
+            // // 숫자, 알파벳, 한글, 비한글 모드
+            // $("#input1").keyup(function(event){
+
+            // if(event.keyCode !=8){
+            //     var result = "keycode="+ event.keyCode + " value="+ String.fromCharCode(event.keyCode);
+            //     var preHtml = $("#result").html();
+            //     $("#result").html(preHtml+ "<br />" +result);
+            // }
+            // if($(this).val() ==""){
+            //     $("#result").empty();
+            //     }
+            // });
+            
+            // $("#onlyNumber").keyup(function(event){
+            //     if (!(event.keyCode >=37 && event.keyCode<=40)) {
+            //         var inputVal = $(this).val();
+            //         $(this).val(inputVal.replace(/[^0-9]/gi,''));
+            //     }
+            // });
+            // $("#onlyAlphabet").keyup(function(event){
+            //     if (!(event.keyCode >=37 && event.keyCode<=40)) {
+            //         var inputVal = $(this).val();
+            //         $(this).val(inputVal.replace(/[^a-z]/gi,''));
+            //     }
+            // });
+            // $("#notHangul").keyup(function(event){
+            //     if (!(event.keyCode >=37 && event.keyCode<=40)) {
+            //         var inputVal = $(this).val();
+            //         $(this).val(inputVal.replace(/[^a-z0-9]/gi,''));
+            //     }
+            // });
+            // $("#onlyHangul").keyup(function(event){
+            //     if (!(event.keyCode >=37 && event.keyCode<=40)) {
+            //         var inputVal = $(this).val();
+            //         $(this).val(inputVal.replace(/[a-z0-9]/gi,''));
+            //     }
+            // });
+
+
+
+
+        });
+
+
+            
+
+
+
+    })();
+
+
+// Daum Address API Function
+    function setDaumPostcode() {
+        new daum.Postcode({
+            
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var fullAddr = ''; // 최종 주소 변수
+                var extraAddr = ''; // 조합형 주소 변수
+
+                // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    fullAddr = data.roadAddress;
+
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    fullAddr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+                if(data.userSelectedType === 'R'){
+                    //법정동명이 있을 경우 추가한다.
+                    if(data.bname !== ''){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있을 경우 추가한다.
+                    if(data.buildingName !== ''){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+                    fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                $('input[name=user_post]').val(data.zonecode);
+                $('input[name=user_addr]').val(fullAddr);
+                
+                // 커서를 상세주소 필드로 이동한다.
+                $('input[name=user_addr2]').focus();
+            }
+        }).open();
+    }
+
+</script>
+<% include ../footer.ejs %>
+
+
+
+
+
