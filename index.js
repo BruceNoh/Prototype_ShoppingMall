@@ -51,6 +51,7 @@ var chat = require('./routes/chat');
 var products = require('./routes/products');
 var cart = require('./routes/cart');
 var qna = require('./routes/qna');
+var checkout = require('./routes/checkout');
 
 // 접속정보
 var port = 3001;
@@ -120,6 +121,7 @@ app.use('/chat', chat);
 app.use('/products', products);
 app.use('/cart', cart);
 app.use('/qna', qna);
+app.use('/checkout', checkout);
 
 // port 정보 및 콘솔 
 var httpsServer = https.createServer(credentials, app);
