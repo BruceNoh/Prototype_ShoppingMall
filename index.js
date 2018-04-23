@@ -44,9 +44,10 @@ autoIncrement.initialize(connect);
 
 // 라우터 모듈
 var admin = require('./routes/admin');
+var home = require('./routes/home');
 var accounts = require('./routes/accounts');
 var auth = require('./routes/auth');
-var home = require('./routes/home');
+var collections = require('./routes/collections');
 var chat = require('./routes/chat');
 var products = require('./routes/products');
 var cart = require('./routes/cart');
@@ -113,7 +114,8 @@ app.use(function(req, res, next){
 // });
 
 // url, admin모듈 객체변수
-app.use('/', home); 
+app.use('/home', home);
+app.use('/collections', collections); 
 app.use('/admin', admin);
 app.use('/accounts', accounts);
 app.use('/auth', auth);

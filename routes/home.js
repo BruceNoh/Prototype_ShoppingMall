@@ -5,7 +5,9 @@ var ProductsModel = require('../models/ProductsModel');
 var co = require('co');
 var paginate = require('express-paginate');
 
-// GET home page
+
+
+// GET Home
 router.get('/', paginate.middleware(30, 50), async (req, res) => {
 
     const [results, itemCount ] = await Promise.all([
@@ -29,17 +31,5 @@ router.get('/', paginate.middleware(30, 50), async (req, res) => {
         }
     );
 });
-// router.get('/', function(req, res){
-
-//     ProductsModel.find(function(err, products){
-
-//         res.render('home',
-//             {
-//                 products : products // 디비에서 받은 상품정보를 키:밸류로 내보낸다.
-//             }
-//         );
-//     });
-// });
-
 
 module.exports = router;

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Node.js 쇼핑몰</title>
+    <!-- jquery가 맨 위에 있어야 한다. -->
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!--폰트어섬추가 -->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--폰트어섬추가 -->
+    <!--bootstrap js 추가 -->
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- 장바구니 담기 공통모듈 -->
+    <script type="text/javascript" src="/static/common.js"></script>
+                <!-- BootStrap -->
+                <!-- Bootstrap core CSS -->
+                <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+                <!-- Custom styles for this template -->
+                <link href="css/4-col-portfolio.css" rel="stylesheet">
+                <!-- BootStrap -->
+</head>
+<body>
+    <div class="container" style="padding-top:10px;">
+    <nav class="navbar navbar-inverse"> 
+            <div class="container-fluid"> 
+                <div class="navbar-header">
+                    <!-- 오른쪽 메뉴바 -->
+                    <button type="button" class="collapsed navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-9" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span> 
+                        <span class="icon-bar"></span> 
+                        <span class="icon-bar"></span>
+                    </button> 
+                    <a href="#" class="navbar-brand">Nodejs</a>
+                </div> 
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
+                    <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="/">Home</a>
+                        </li>
+                        <li><a href="/admin/products">ADMIN</a></li>
+                        <li><a href="/cart">CART</a></li>
+                        <li><a href="/accounts/myinfo">MYINFO</a></li>
+                        <li><a href="/chat">CHAT</a></li>
+                        <li><a href="/qna/list">Q&A</a></li>
+                        <% if(isLogin){%>
+                            <li><a href="/accounts/logout" onclick="return confirm('로그아웃 하시겠습니까?')">LOGOUT</a></li>
+                        <%}else{%>
+                            <li><a href="/accounts/join">JOIN</a></li> 
+                            <li><a href="/accounts/login">LOGIN</a></li>  
+                        <%}%>
+                    </ul> 
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/checkout/nomember">구매조회</a></li> 
+                    </ul>
+                </div> 
+            </div> 
+        </nav>

@@ -1,0 +1,44 @@
+<% include ../header.ejs %>
+
+    <% include ./sidebar.ejs %>
+
+        <div class="col-sm-10">
+
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>주문자(이메일)</th>
+                    <th>배송단계</th>
+                    <th>배송상세조회</th>
+                    <th>금액</th>
+                    <th>주소</th>
+                    <th>날짜</th>
+                </tr>
+                <% orderList.forEach( function(order){ %>
+                <tr>
+                    <td>
+                        <a href="/admin/order/edit/<%=order.id%>">
+                            <%=order.buyer_name%> ( <%=order.buyer_email%> )
+                        </a>
+                    </td>
+                    <td><%=order.status%></td>
+                    <td>
+                        <%=order.status%> 
+                        <%if(order.status==='배송중'){%>
+                        <a href="/checkout/shipping/<%=order.song_jang%>">( 위치추적 )</a>
+                        <%}%>
+                    </td>
+                    <td><%=order.getAmountFormat%></td>
+                    <td><%=order.buyer_addr%></td>
+                    <td>
+                        <%=order.getDate.year%>년  
+                        <%=order.getDate.month%>월  
+                        <%=order.getDate.day%>일
+                    </td>
+                </tr>
+                <%});%>
+            </table>
+        </div>
+
+    
+
+<% include ../footer.ejs %>

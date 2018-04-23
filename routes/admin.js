@@ -5,6 +5,7 @@ var ProductsModel = require('../models/ProductsModel');
 var CommentsModel = require('../models/CommentsModel');
 var repleModel = require('../models/RepleModel');
 var loginRequired = require('../libs/loginRequired');
+var CheckoutModel = require('../models/CheckoutModel');
 // 콜백헬 개선
 var co = require('co');
 var paginate = require('express-paginate');
@@ -314,6 +315,90 @@ router.post('/products/ajax_comment/repledelete', function(req, res){
 router.post('/products/ajax_summernote', loginRequired, upload.single('thumbnail'), function(req, res){
 
     res.send('/uploads/' + req.file.filename);
+});
+
+// 결제정보 리스트
+router.get('/order', function(req,res){
+
+    CheckoutModel.find( function(err, orderList){ //첫번째 인자는 err, 두번째는 받을 변수명
+    
+        res.render( 'admin/orderList' , 
+            { orderList : orderList }
+        );
+    });
+});
+
+// 결제 상세정보
+router.get('/order/edit/:id', function(req, res){
+
+    CheckoutModel.findOne(
+        {   // 결제정보의 아이디를 받아와서 상세정보를 출력한다.
+            id : req.params.id
+        }, function(err, order){
+
+            res.render('admin/orderForm', { order : order } );
+        }
+    );
+});
+
+// 배송조회
+router.post('/order/edit/:id', function(req, res){
+
+    var query = {
+        // 결재상태를 변경 및 송장번호 저장하는 쿼리로직
+        status : req.body.status,
+        song_jang : req.body.song_jang
+    };
+
+    CheckoutModel.update({ id : req.params.id }, { $set : query }, function(err){
+    
+        res.redirect('/admin/order');
+    });
+});
+
+// GET 통계 차트
+// router.get('/statistics', adminRequired, function(req,res){
+   
+//     res.render('admin/statistics');
+// });
+router.get('/statistics', function(req,res){
+    // 체크아웃 모델에서 검색, orderList 파라미터로 전달
+    CheckoutModel.find( function(err, orderList){ 
+
+        var barData = [];   // 넘겨줄 막대그래프 데이터 초기값 선언
+        var pieData = [];   // 원차트에 넣어줄 데이터 삽입
+        // orderList에서 반복문을 돌려 order 파라미터로 전달
+        orderList.forEach(function(order){
+            // 08-10 형식으로 날짜를 받아온다
+            var date = new Date(order.created_at);
+            var monthDay = (date.getMonth()+1) + '-' + date.getDate();
+            
+            // 날짜에 해당하는 키값으로 조회
+            if(monthDay in barData){
+
+                barData[monthDay]++; //있으면 더한다
+                console.log('barData[monthDay]++' + barData[monthDay]++);
+            }else{
+
+                barData[monthDay] = 1; //없으면 초기값 1넣어준다.
+                console.log(barData[monthDay] = 1);
+            }
+
+            // 결재 상태를 검색해서 조회
+            if(order.status in pieData){
+
+                pieData[order.status]++; //있으면 더한다
+                console.log('pieData[order.status]++' + pieData[order.status]++);
+            }else{
+
+                pieData[order.status] = 1; //없으면 결재상태+1
+                console.log(pieData[order.status] = 1);
+            }
+
+        });
+
+        res.render('admin/statistics', { barData : barData , pieData:pieData } );
+    });
 });
 
 module.exports = router;

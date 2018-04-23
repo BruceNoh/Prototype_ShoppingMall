@@ -109,7 +109,7 @@
             // iamport.kr의 내정보의 가맹점 식별코드를 의미한다.
             IMP.init('imp09327587'); 
 
-            //아임호트 사이트에서 받아온다( http://www.iamport.kr/ )
+            //아임포트 사이트에서 받아온다( http://www.iamport.kr/ )
             IMP.request_pay(
                 {
                     pg : 'inicis', // 이니시스
@@ -174,6 +174,7 @@
 
     // Daum Address API Function
     function setDaumPostcode() {
+        
         new daum.Postcode({
             
             oncomplete: function(data) {
@@ -186,9 +187,10 @@
 
                 // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
                 if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    
                     fullAddr = data.roadAddress;
-
                 } else { // 사용자가 지번 주소를 선택했을 경우(J)
+
                     fullAddr = data.jibunAddress;
                 }
 
@@ -196,10 +198,12 @@
                 if(data.userSelectedType === 'R'){
                     //법정동명이 있을 경우 추가한다.
                     if(data.bname !== ''){
+
                         extraAddr += data.bname;
                     }
                     // 건물명이 있을 경우 추가한다.
                     if(data.buildingName !== ''){
+
                         extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
                     }
                     // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
