@@ -5,10 +5,15 @@ var ProductsModel = require('../models/ProductsModel');
 var CommentsModel = require('../models/CommentsModel');
 var repleModel = require('../models/RepleModel');
 var loginRequired = require('../libs/loginRequired');
+var adminRequired = require('../libs/adminRequired');
 var CheckoutModel = require('../models/CheckoutModel');
+var UserModel = require('../models/UserModel');
 // 콜백헬 개선
 var co = require('co');
 var paginate = require('express-paginate');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var session = require('express-session');
 
 // csrf 셋팅
 var csrf = require('csurf');
@@ -29,8 +34,91 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage : storage });
 
+
+
+// 관리자 로그인 성공시 먼저 실행되고 디시리얼이 실행된다. 
+passport.serializeUser(function (user, done){
+
+    console.log('serializeUser');
+    done(null, user);
+});
+// 관리자 로그인 성공했을 때 콘솔화면에 나오는 메서드
+passport.deserializeUser(function (user, done) {
+    var result = user;
+    result.password = user.password;
+    console.log('deserializeUser');
+
+    UserModel.findOne(
+        {
+            _id : user._id
+        }, function(err, result){
+            done(null, result);
+        }
+    );  
+});
+// 관리자 로그인 처리 프로세스 및 로그인관련 passport 정책설정
+passport.use(new LocalStrategy({
+
+    usernameField : 'user_id',
+    passwordField : 'password',
+    passReqToCallback : true
+    }, function(req, user_id, password, done){
+        
+        UserModel.findOne(
+            {
+                user_id : user_id,
+                password : passwordHash(password)
+            }, function(err, user){
+                
+                UserModel.findOne({
+                    user_id : user_id,
+                    password : passwordHash(password)
+                }, function(err, user){
+                    
+                    if(!user){
+                        return done(null, false, { message : '아이디 또는 비밀번호 오류'});
+                    }else{
+                        return done(null, user);
+                    }   
+                });
+            }
+        );
+    }
+));
+
+
+// GET 어드민 홈 로그인 페이지
+router.get('/adminlogin', function(req, res){
+
+    res.render('admin/adminlogin');
+});
+
+// POST 로그인 처리 프로세스
+router.post('/adminlogin', 
+    passport.authenticate('local', 
+        {
+            failureRedirect : '/admin/adminlogin',
+            failureFlash : true
+        }), function(req, res){
+            res.send('<script>alert("로그인 성공");location.href="/admin/adminhome";</script>');
+        }
+);
+
+// GET 로그아웃
+router.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/admin/adminlogin');
+});
+
+// GET 관리자 home 페이지
+// router.get('/adminhome', function(req, res){
+
+//     res.render('admin/adminhome');
+// });
+
+
 // 제품 등록 페이지 및 url
-router.get('/products/write', loginRequired, csrfProtection, function(req, res){
+router.get('/products/write', adminRequired, csrfProtection, function(req, res){
     
     // 디렉토리 및 확장자가 ejs인 파일명
     res.render('admin/form',
@@ -42,7 +130,8 @@ router.get('/products/write', loginRequired, csrfProtection, function(req, res){
     );
 });
 
-// form 작성 후 post 방식으로 데이터 저장을 수행할 메서드
+
+// POST form 작성 후 post 방식으로 데이터 저장을 수행할 메서드
 router.post('/products/write', loginRequired, upload.single('thumbnail'), csrfProtection, function(req, res){
     // products.ejs form의 데이터를 req.body.x로 받는다.
     var product = new ProductsModel({
@@ -68,6 +157,67 @@ router.post('/products/write', loginRequired, upload.single('thumbnail'), csrfPr
     //     res.redirect('/admin/products');
     // });
 });
+
+
+// GET 어드민 제품 등록 페이지 및 url
+router.get('/products/productsregist', adminRequired, csrfProtection, function(req, res){
+    
+    // 디렉토리 및 확장자가 ejs인 파일명
+    res.render('admin/adminproductsregist',
+
+        {
+            product : "",
+            csrfToken : req.csrfToken()
+        }
+    );
+});
+
+// POST 어드민 제품정보 등록 후 post 방식으로 데이터 저장을 수행할 메서드
+router.post('/products/productsregist', loginRequired, upload.single('thumbnail'), csrfProtection, function(req, res){
+    // products.ejs form의 데이터를 req.body.x로 받는다.
+    var product = new ProductsModel({
+
+        category : req.body.category,
+        productname : req.body.productname,
+        thumbnail : (req.file) ? req.file.filename : "",
+        price : req.body.price,
+        quantity : req.body.quantity,
+        description : req.body.description,
+        user_name : req.body.user_name,
+        productgun : req.body.productgun,
+        productweight : req.body.productweight,
+        productspec : req.body.productspec,
+        productmaker : req.body.productmaker,
+        productusing : req.body.productusing,
+        customercall : req.body.customercall,
+        productdelivery : req.body.productdelivery,
+        productredelivery : req.body.productredelivery 
+        // name : req.body.name,
+        // thumbnail : (req.file) ? req.file.filename : "",
+        // price : req.body.price,
+        // description : req.body.description,
+    });
+    // 밸리데이션 싱크를 걸어놓는다.
+    var validationError = product.validateSync();
+    // 제목을 입력하지 않으면 밸리데이션 에러를 발생시킨다.
+    if(validationError){
+
+        res.send(validationError);
+    }else{ // 제목입력되면 정보저장 후 프로덕트 페이지로 이동
+        
+        product.save(function(err){
+            
+            res.redirect('/admin/products');
+        });
+    }
+    // 데이터를 받고 저장
+    // product.save(function(err){
+    //     // 저장 후 해당 url로 리다이렉트
+    //     res.redirect('/admin/products');
+    // });
+});
+
+
 
 // 제품 목록페이지
 router.get('/products', paginate.middleware(5, 50), async (req,res) => {
@@ -111,6 +261,34 @@ router.get('/products', paginate.middleware(5, 50), async (req,res) => {
 //         });
 //     }
 // });
+
+
+// GET 어드민 홈 등록제품 목록페이지
+router.get('/products/productslist', paginate.middleware(5, 50), async (req,res) => {
+
+    if(!req.isAuthenticated()){
+
+        res.send('<script>alert("로그인이 필요한 서비스입니다.");location.href="/admin/adminlogin"</script>');
+    }else{
+
+        const [ results, itemCount ] = await Promise.all([
+            // sort : minus 하면 내림차순(날짜명)이다.
+            ProductsModel.find().sort('-created_at').limit(req.query.limit).skip(req.skip).exec(),
+            ProductsModel.count({})
+        ]);
+        const pageCount = Math.ceil(itemCount / req.query.limit);
+        
+        const pages = paginate.getArrayPages(req)( 4 , pageCount, req.query.page);
+
+        res.render('admin/adminproductslist', 
+            { 
+                products : results , 
+                pages: pages,
+                pageCount : pageCount,
+            });
+    }
+});
+
 
 // 상세페이지 /admin/products/detail/:id
 router.get('/products/detail/:id' , function(req, res){
@@ -398,6 +576,47 @@ router.get('/statistics', function(req,res){
         });
 
         res.render('admin/statistics', { barData : barData , pieData:pieData } );
+    });
+});
+
+// GET 어드민 홈 통계
+router.get('/adminhome', adminRequired, function(req,res){
+    // 체크아웃 모델에서 검색, orderList 파라미터로 전달
+    CheckoutModel.find( function(err, orderList){ 
+
+        var barData = [];   // 넘겨줄 막대그래프 데이터 초기값 선언
+        var pieData = [];   // 원차트에 넣어줄 데이터 삽입
+        // orderList에서 반복문을 돌려 order 파라미터로 전달
+        orderList.forEach(function(order){
+            // 08-10 형식으로 날짜를 받아온다
+            var date = new Date(order.created_at);
+            var monthDay = (date.getMonth()+1) + '-' + date.getDate();
+            
+            // 날짜에 해당하는 키값으로 조회
+            if(monthDay in barData){
+
+                barData[monthDay]++; //있으면 더한다
+                console.log('barData[monthDay]++' + barData[monthDay]++);
+            }else{
+
+                barData[monthDay] = 1; //없으면 초기값 1넣어준다.
+                console.log(barData[monthDay] = 1);
+            }
+
+            // 결재 상태를 검색해서 조회
+            if(order.status in pieData){
+
+                pieData[order.status]++; //있으면 더한다
+                console.log('pieData[order.status]++' + pieData[order.status]++);
+            }else{
+
+                pieData[order.status] = 1; //없으면 결재상태+1
+                console.log(pieData[order.status] = 1);
+            }
+
+        });
+
+        res.render('admin/adminhome', { barData : barData , pieData:pieData } );
     });
 });
 

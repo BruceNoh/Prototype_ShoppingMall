@@ -22,14 +22,14 @@ passport.use(new FacebookStrategy({
     clientID: "986023264890438", //입력하세요
     clientSecret: "d4f5ff8e75d0ca2cf3bc944f72582245", //입력하세요.
     callbackURL: "https://localhost:3001/auth/facebook/callback",
-    profileFields: ['id', 'displayname', 'photos', 'email']
+    profileFields: ['id', 'displayName', 'photos', 'email']
     }, function(accessToken, refreshToken, profile, done){
 
-        console.log(profile);
-        console.log(profile.displayName);
-        console.log(profile.emails[0].value);
-        console.log(profile._raw);
-        console.log(profile._json);
+        // console.log(profile);
+        // console.log(profile.displayName);
+        // console.log(profile.emails[0].value);
+        // console.log(profile._raw);
+        // console.log(profile._json);
         
         UserModel.findOne({ user_id : "fb_" + profile.id }, function(err, user){
             
@@ -67,7 +67,7 @@ router.get('/facebook/callback',
 
     passport.authenticate('facebook', 
         {
-            successRedirect : '/',
+            successRedirect : '/home',
             failureRedirect : '/auth/facebook/fail'
             // failureRedirect : '/account/login'
         }

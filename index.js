@@ -38,7 +38,7 @@ db.once('open', function(){
     console.log('mongodb connect');
 });
 // 몽구스로 해당 몽고디비 정보에 접속한다.
-var connect = mongoose.connect('mongodb://127.0.0.1:27017/fastcampus', { useMongoClient: true });
+var connect = mongoose.connect('mongodb://127.0.0.1:27017/hyperledgermall', { useMongoClient: true });
 // 1씩 증가하는 컬렉션 세팅
 autoIncrement.initialize(connect);
 
@@ -57,6 +57,7 @@ var checkout = require('./routes/checkout');
 // 접속정보
 var port = 3001;
 
+console.log(__dirname);
 // path 모듈을 설치하고 ejs경로를 찾아갈 수 있게 뷰엔진을 추가한다.
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -72,6 +73,10 @@ app.use(cookieParser());
 app.use('/uploads', express.static('uploads'));
 // static path 추가(장바구니담기)
 app.use('/static', express.static('static'));
+// 부트스트랩 파일 정적 라우팅
+app.use('/public', express.static('public'));
+
+
 
 // session 관련 세팅
 // 커넥트 몽고를 로드한 후, 커넥트 몽고 변수에 session정보를 담아서 MongoStore에 담는다.
@@ -79,7 +84,7 @@ var connectMongo = require('connect-mongo');
 var MongoStore = connectMongo(session);
 
 var sessionMiddleWare = session({
-    secret : 'fastcampus',
+    secret : 'hyperledgermall',
     resave : false,
     saveUninitialized : true,
     cookie : {

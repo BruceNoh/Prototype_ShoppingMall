@@ -6,7 +6,6 @@ var passwordHash = require('../libs/passwordHash');
 // 로그인 설정관련 모듈
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
 var session = require('express-session');
 var loginRequired = require('../libs/loginRequired');
 
@@ -35,19 +34,19 @@ passport.deserializeUser(function (user, done) {
 // 로그인 처리 프로세스 및 로그인관련 passport 정책설정
 passport.use(new LocalStrategy({
 
-    usernameField : 'userid',
+    usernameField : 'user_id',
     passwordField : 'password',
     passReqToCallback : true
-    }, function(req, userid, password, done){
+    }, function(req, user_id, password, done){
         
         UserModel.findOne(
             {
-                user_id : userid,
+                user_id : user_id,
                 password : passwordHash(password)
             }, function(err, user){
                 
                 UserModel.findOne({
-                    user_id : userid,
+                    user_id : user_id,
                     password : passwordHash(password)
                 }, function(err, user){
                     
@@ -93,7 +92,7 @@ router.post('/join', function(req, res){
         user_post : req.body.user_post
     });
     User.save(function(err){
-        res.send('<script>alert("회원가입 성공")\
+        res.send('<script>alert("회원가입 성공");\
         location.href="/accounts/login";</script>');
     });
 });
@@ -179,10 +178,10 @@ router.post('/myinfo', function(req, res){
                 
                 user_id : user_id,
                 // 비밀번호는 패스워드해쉬 라이브러리 js 파일로 암호화시킨다.
-                password : passwordHash(password),
+                password : password,
                 displayname : displayname,
                 hyperledgerid : hyperledgerid,
-                hyperledgerpwd : passwordHash(hyperledgerpwd),
+                hyperledgerpwd : hyperledgerpwd,
                 user_name : user_name,
                 user_phone : user_phone,
                 user_sex : user_sex,

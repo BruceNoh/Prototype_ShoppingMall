@@ -8,10 +8,10 @@
         <div class="masonry-grid">
             <a href="/products/<%=product.id%>">
                 <%if(product.thumbnail){%>
-                    <img width="250" height="300" src="/uploads/<%=product.thumbnail%>">
+                    <img width="250" height="300" src="../uploads/<%=product.thumbnail%>">
                 <%}%>
                 <p>
-                    <%=product.title%><br />
+                    <%=product.title%><br/>
                     by <%=product.username%>(
                     <%=product.getDate.year%>.
                     <%=product.getDate.month%>.

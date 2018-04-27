@@ -12,7 +12,7 @@
                 <form role="form" action="" id="login_form" method="post">
                     <fieldset>
                         <div class="form-group">
-                            <input class="form-control" placeholder="ID" name="userid" type="text" autofocus="" required="">
+                            <input class="form-control" placeholder="ID" name="user_id" type="text" autofocus="" required="">
                         </div>
                         <div class="form-group">
                             <input class="form-control" placeholder="Password" name="password" type="password" value="" required="">
@@ -35,7 +35,7 @@
     $(document).ready(function() {
         
         $('#login_form').submit(function(){
-            var $usernameInput = $('#login_form input[name=userid]');
+            var $usernameInput = $('#login_form input[name=user_id]');
             var $passwordInput = $('#login_form input[name=password]');
 
             if(!$usernameInput.val()){

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Admin - Re:Mind Fashion Administrator</title>
+  <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+  <!-- Bootstrap core CSS-->
+  <link href="../../public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <!-- Custom fonts for this template-->
+  <link href="../../public/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Custom styles for this template-->
+  <link href="../../public/css/sb-admin.css" rel="stylesheet" type="text/css">
+  <!-- ../../ <- 위로 두 단계 가는 이유는 GET 라우트에서 호출경로가 /products/productsregist로 잡아줬기 때문이다. -->
+</head>
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <a class="navbar-brand" href="index.html">Re:Mind Fashion Administrator</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+          <a class="nav-link" href="/admin/adminhome">
+            <i class="fa fa-fw fa-dashboard"></i>
+            <span class="nav-link-text">대시보드</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+          <a class="nav-link" href="/admin/products/productsregist" width="10px" height="10px">
+            <i class="fa fa-fw fa-eyedropper"></i>
+            <span class="nav-link-text">상품등록</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="nav-link" href="/admin/products/productslist">
+            <i class="fa fa-fw fa-table"></i>
+            <span class="nav-link-text">상품리스트</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+          <a class="nav-link" href="/admin/products/productsregist">
+            <i class="fa fa-fw fa-area-chart"></i>
+            <span class="nav-link-text">Charts</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-wrench"></i>
+            <span class="nav-link-text">Components</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseComponents">
+            <li>
+              <a href="navbar.html">Navbar</a>
+            </li>
+            <li>
+              <a href="cards.html">Cards</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-file"></i>
+            <span class="nav-link-text">Example Pages</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseExamplePages">
+            <li>
+              <a href="login.html">Login Page</a>
+            </li>
+            <li>
+              <a href="register.html">Registration Page</a>
+            </li>
+            <li>
+              <a href="forgot-password.html">Forgot Password Page</a>
+            </li>
+            <li>
+              <a href="blank.html">Blank Page</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-sitemap"></i>
+            <span class="nav-link-text">Menu Levels</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseMulti">
+            <li>
+              <a href="#">Second Level Item</a>
+            </li>
+            <li>
+              <a href="#">Second Level Item</a>
+            </li>
+            <li>
+              <a href="#">Second Level Item</a>
+            </li>
+            <li>
+              <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Third Level</a>
+              <ul class="sidenav-third-level collapse" id="collapseMulti2">
+                <li>
+                  <a href="#">Third Level Item</a>
+                </li>
+                <li>
+                  <a href="#">Third Level Item</a>
+                </li>
+                <li>
+                  <a href="#">Third Level Item</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
+          <a class="nav-link" href="#">
+            <i class="fa fa-fw fa-link"></i>
+            <span class="nav-link-text">Link</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav sidenav-toggler">
+        <li class="nav-item">
+          <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-fw fa-envelope"></i>
+            <span class="d-lg-none">Messages
+              <span class="badge badge-pill badge-primary">12 New</span>
+            </span>
+            <span class="indicator text-primary d-none d-lg-block">
+              <i class="fa fa-fw fa-circle"></i>
+            </span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="messagesDropdown">
+            <h6 class="dropdown-header">New Messages:</h6>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <strong>David Miller</strong>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">Hey there! This new version of SB Admin is pretty awesome! These messages clip off when they reach the end of the box so they don't overflow over to the sides!</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <strong>Jane Smith</strong>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">I was wondering if you could meet for an appointment at 3:00 instead of 4:00. Thanks!</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <strong>John Doe</strong>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">I've sent the final files over to you for review. When you're able to sign off of them let me know and we can discuss distribution.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item small" href="#">View all messages</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-fw fa-bell"></i>
+            <span class="d-lg-none">Alerts
+              <span class="badge badge-pill badge-warning">6 New</span>
+            </span>
+            <span class="indicator text-warning d-none d-lg-block">
+              <i class="fa fa-fw fa-circle"></i>
+            </span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="alertsDropdown">
+            <h6 class="dropdown-header">New Alerts:</h6>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <span class="text-success">
+                <strong>
+                  <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
+              </span>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <span class="text-danger">
+                <strong>
+                  <i class="fa fa-long-arrow-down fa-fw"></i>Status Update</strong>
+              </span>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <span class="text-success">
+                <strong>
+                  <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
+              </span>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item small" href="#">View all alerts</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <form class="form-inline my-2 my-lg-0 mr-lg-2">
+            <div class="input-group">
+              <input class="form-control" type="text" placeholder="Search for...">
+              <span class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                  <i class="fa fa-search"></i>
+                </button>
+              </span>
+            </div>
+          </form>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+            <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">대시보드</a>
+        </li>
+        <li class="breadcrumb-item active">상품등록</li>
+      </ol>
+      <!-- Area Chart Example-->
+      
+      
+      
+        <form action="" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="_csrf" value="<%=csrfToken%>" /><!-- 토큰발행 -->
+            <table class="table table-bordered">
+                <tr align="center">
+                    <th colspan="2">카   테   고   리</th>
+                </tr>
+                <tr>
+                    <th style="width: 150px; vertical-align: middle;">카테고리</th>
+                    <td><input type="text" name="category" class="form-control"/></td>
+                </tr>
+                <tr align="center">
+                    <th colspan="2">제   품   정   보</th>
+                </tr>
+                <tr>
+                    <th style="width: 150px; vertical-align: middle;">제품명</th>
+                    <td><input type="text" name="productname" class="form-control"/></td>
+                </tr>
+                <tr>
+                    <th style="width: 150px; vertical-align: middle;">가격</th>
+                    <td><input type="number" name="price" class="form-control"/></td>
+                </tr>
+                <tr>
+                    <th style="width: 150px; vertical-align: middle; horizontal-align: center;">섬네일(250x300px)</th>
+                    <td>
+                        <input type="file" name="thumbnail" />
+                        <% if(product.thumbnail){ %>
+                            <a href="/uploads/<%=product.thumbnail%>" target="_blank">업로드 이미지 보기</a>
+                        <% } %>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width: 150px; vertical-align: middle;">상세정보</th>
+                    <td><!-- 위지윅 에디터를 위한 summernote -->
+                        <textarea name="description" class="form-control" id="summernote"><%-product.description%></textarea>
+                    </td>
+                </tr>
+                <tr align="center">
+                    <th colspan="2">상   품   정   보      제   공   공   시</th>
+                </tr>
+                <tr>
+                    <th style="width: 150px; vertical-align: middle;">상품등록자</th>
+                    <td><input type="text" name="user_name" value="" class="form-control"/></td>
+                </tr>
+                <tr>
+                    <th style="width: 150px; vertical-align: middle;">상품군</th>
+                    <td><input type="text" name="productgun" class="form-control"/></td>
+                </tr>
+                <tr>
+                    <th style="width: 150px; vertical-align: middle;">용량 및 중량</th>
+                    <td><input type="text" name="productweight" class="form-control"/></td>
+                </tr>
+                <tr>
+                    <th style="width: 150px; vertical-align: middle;">제품 주요사양</th>
+                    <td><input type="text" name="productspec" class="form-control"/></td>
+                </tr>
+                <tr>
+                    <th style="width: 150px; vertical-align: middle;">제조판매업자</th>
+                    <td><input type="text" name="productmaker" class="form-control"/></td>
+                </tr>
+                <tr>
+                    <th style="width: 150px; vertical-align: middle;">사용방법</th>
+                    <td><textarea type="text" name="productusing" class="form-control"></textarea></td>
+                </tr>
+                <tr>
+                    <th style="width: 150px; vertical-align: middle;">소비자 상담</th>
+                    <td><input type="text" name="customercall" class="form-control"/></td>
+                </tr>
+                <tr align="center">
+                    <th colspan="2">배   송   정   보</th>
+                </tr>
+                <tr>
+                    <th style="width: 150px; vertical-align: middle;">배송비</th>
+                    <td><input type="number" name="productdelivery" class="form-control"/></td>
+                </tr>
+                <tr>
+                    <th style="width: 150px; vertical-align: middle;">교환반품</th>
+                    <td><input type="number" name="productredelivery" class="form-control"/></td>
+                </tr>
+            </table>
+              <div align="center"><button class="btn btn-primary">작성하기</button></div><br/>
+        </form>
+        
+    </div>
+
+
+
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+    <footer class="sticky-footer">
+      <div class="container">
+        <div class="text-center">
+          <small>Copyright © Your Website 2018</small>
+        </div>
+      </div>
+    </footer>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="/admin/logout">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+                
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="../../public/vendor/jquery/jquery.min.js"></script>
+    <script src="../../public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="../../public/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="../../public/vendor/chart.js/Chart.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="../../public/js/sb-admin.min.js"></script>
+    <!-- Custom scripts for this page-->
+    <script src="../../public/js/sb-admin-charts.min.js"></script>
+
+
+
+    
+    <!-- 스타일관련 -->
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/summernote.css" rel="stylesheet">
+    <!-- 자바스크립트관련 -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/summernote.js"></script>
+    <!-- 한글관련 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/lang/summernote-ko-KR.min.js"></script>
+
+        
+
+        <script>
+
+            // 위지윅에서 이미지 업로드 후 작성하기 전 remove하여 makeError 예방
+            $('#editForm').submit(function(){
+                // 해당 위지익 업로드 이미지를 리무브 해준다.
+                $('input[name=files]').remove();
+            });
+
+            // 위지윅 이미지 데이터가 ajax 배열로 담겨서 업로드한다.
+            $(document).ready(function(){
+
+                $('#summernote').summernote({
+
+                    lang: 'ko-KR',
+                    height: 300,
+                    callbacks : {
+                        onImageUpload : function(files){
+                            sendFile(files[0]);
+                        }
+                    }
+                });
+            });
+
+            // ajax로 데이터를 전달하는데 backend 라우팅으로 파일만 내보내고
+            // insertImage라는 api를 통해 url만 넣어주면 화면의 이미지를 볼 수 있다.
+            function sendFile(file, editor, welEditable){
+
+                data = new FormData();
+                data.append("thumbnail", file);
+                
+                $.ajax({
+
+                    data : data,
+                    type : "POST",
+                    url : '/admin/products/ajax_summernote/',
+                    cache : false,
+                    contentType : false,
+                    processData : false,
+                    success : function(url){
+                        $('#summernote').summernote("insertImage", url);
+                    }
+                });
+            }
+        </script>
+
+
+  </div>
+
+    
+
+</body>
+
+</html>

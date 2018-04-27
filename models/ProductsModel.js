@@ -6,18 +6,28 @@ var autoIncrement = require('mongoose-auto-increment');
 // 이 파일은 데이터를 담는 객체
 var ProductsSchema = new Schema({
     // 데이터베이스에 자료형 스키마
-    name : { // 키 : 속성
+    category : String,
+    productname : { // 키 : 속성
        type : String,
        required : [true, '제목은 입력해주세요'] 
     },
     thumbnail : String, // 썸네일 경로가 저장될 컬렉션
     price : Number,
+    quantity : Number,
     description : String,
     created_at : {
         type : Date,
         default : Date.now()
     },
-    username : String // 작성자 추가
+    user_name : String, // 작성자 추가
+    productgun : String,
+    productweight : String,
+    productspec : String,
+    productmaker : String,
+    productusing : String,
+    customercall : String,
+    productdelivery : Number,
+    productredelivery : Number
 });
 
 // 1씩 증가하는 primary key를 만든다
