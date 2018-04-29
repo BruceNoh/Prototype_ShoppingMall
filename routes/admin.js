@@ -580,7 +580,9 @@ router.get('/statistics', function(req,res){
 });
 
 // GET 어드민 홈 통계
-router.get('/adminhome', adminRequired, function(req,res){
+router.get('/adminhome', adminRequired, function(req, res) {
+
+
     // 체크아웃 모델에서 검색, orderList 파라미터로 전달
     CheckoutModel.find( function(err, orderList){ 
 
@@ -589,35 +591,38 @@ router.get('/adminhome', adminRequired, function(req,res){
         // orderList에서 반복문을 돌려 order 파라미터로 전달
         orderList.forEach(function(order){
             // 08-10 형식으로 날짜를 받아온다
-            var date = new Date(order.created_at);
+            var date = new Date(order.created_at); // 현재 대한민국 표준시
             var monthDay = (date.getMonth()+1) + '-' + date.getDate();
+            console.log(monthDay + 'monthDay');
             
             // 날짜에 해당하는 키값으로 조회
             if(monthDay in barData){
 
-                barData[monthDay]++; //있으면 더한다
+                barData[monthDay]++; // 있으면 더한다
                 console.log('barData[monthDay]++' + barData[monthDay]++);
             }else{
 
-                barData[monthDay] = 1; //없으면 초기값 1넣어준다.
+                barData[monthDay] = 1; // 없으면 초기값 1넣어준다.
+                console.log('barData[monthDay] = 1')
                 console.log(barData[monthDay] = 1);
             }
 
-            // 결재 상태를 검색해서 조회
+            // 결제 상태를 검색해서 조회
             if(order.status in pieData){
 
-                pieData[order.status]++; //있으면 더한다
+                pieData[order.status]++; // 있으면 더한다
                 console.log('pieData[order.status]++' + pieData[order.status]++);
             }else{
 
-                pieData[order.status] = 1; //없으면 결재상태+1
+                pieData[order.status] = 1; // 없으면 결제상태+1
                 console.log(pieData[order.status] = 1);
             }
 
         });
-
         res.render('admin/adminhome', { barData : barData , pieData:pieData } );
-    });
+    }); 
+
+    
 });
 
 module.exports = router;
