@@ -42,7 +42,7 @@ var connect = mongoose.connect('mongodb://127.0.0.1:27017/hyperledgermall', { us
 // 1씩 증가하는 컬렉션 세팅
 autoIncrement.initialize(connect);
 
-// 라우터 모듈 로드
+// 라우터 모듈을 로드한다.
 var admin = require('./routes/admin');
 var home = require('./routes/home');
 var accounts = require('./routes/accounts');
