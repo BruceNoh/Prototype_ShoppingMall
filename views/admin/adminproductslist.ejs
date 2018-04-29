@@ -236,50 +236,7 @@
           <i class="fa fa-table"></i> 등록 상품 테이블</div>
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-            <thead>
-                <tr align="center">
-                    <th width="10%" style="vertical-align: middle;">카테고리</th>
-                    <th width="15%" style="vertical-align: middle;">상품명</th>
-                    <th width="20%" style="vertical-align: middle;">상품이미지</th>
-                    <th width="10%" style="vertical-align: middle;">상품가격</th>
-                    <th width="10%" style="vertical-align: middle;">작성일</th>
-                    <th width="7%" style="vertical-align: middle;">삭제</th>
-                </tr>
-            </thead>
-            <tfoot>
-                <tr align="center">
-                    <th>카테고리</th>
-                    <th>상품명</th>
-                    <th>상품이미지</th>
-                    <th>상품가격</th>
-                    <th>작성일</th>
-                    <th>삭제</th>
-                </tr>
-            </tfoot>
-                <tbody>
-                <% products.forEach(function(products){ %>
-                <tr align="center">
-                    <td style="vertical-align: middle;">
-                        <%= products.category %>
-                    </td>
-                    <td style="vertical-align: middle;">
-                        <a href="/admin/products/detail/<%= products.id %>"><%= products.productname %></a>
-                    </td>
-                    <td width="200" style="vertical-align: middle;">
-                            <img width="150" height="100" src="../../../uploads/<%=products.thumbnail%>">
-                    </td>
-                    <td style="vertical-align: middle;"><%- products.price %></td>
-                    <td style="vertical-align: middle;">
-                        <%= products.getDate.year %>년 <%= products.getDate.month %>월 <%= products.getDate.day %>일
-                    </td>
-                    <td style="vertical-align: middle;">
-                        <a href="/admin/products/delete/<%= products.id %>" class="btn btn-danger" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
-                    </td>
-                </tr>
-                <% }); %>
-              </tbody>
-            </table>
+            
           </div>
         </div>
         <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
