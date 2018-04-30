@@ -132,31 +132,31 @@
                         // 가격만 맞춰준다.
                         document.location.href = "/checkout/complete?imp_uid=" + rsp.imp_uid;
                         //요청 성공후 ajax POST요청한다.
-                        // $.ajax({
-                        //     url: '/checkout/complete', // 결제성공시 호출
-                        //     type: 'POST',
-                        //     data : {
-                        //         imp_uid : rsp.imp_uid,
-                        //         merchant_uid : rsp.merchant_uid,
-                        //         paid_amount : rsp.paid_amount,
-                        //         apply_num : rsp.apply_num,
+                        $.ajax({
+                            url: '/checkout/complete', // 결제성공시 호출
+                            type: 'POST',
+                            data : {
+                                imp_uid : rsp.imp_uid,
+                                merchant_uid : rsp.merchant_uid,
+                                paid_amount : rsp.paid_amount,
+                                apply_num : rsp.apply_num,
                                 
-                        //         buyer_email : buyer_email,
-                        //         buyer_name : buyer_name,
-                        //         buyer_tel : buyer_tel,
-                        //         buyer_addr : buyer_addr,
-                        //         buyer_postcode : buyer_postcode,
+                                buyer_email : buyer_email,
+                                buyer_name : buyer_name,
+                                buyer_tel : buyer_tel,
+                                buyer_addr : buyer_addr,
+                                buyer_postcode : buyer_postcode,
         
-                        //         status : "결재완료",
-                        //     }
-                        // }).done( function(res){
+                                status : "결재완료",
+                            }
+                        }).done( function(res){
 
-                        //     alert("결제가 완료되었습니다.");
-                        //     document.location.href = "/checkout/success";
-                        // }).fail( function(error){
+                            alert("결제가 완료되었습니다.");
+                            document.location.href = "/checkout/success";
+                        }).fail( function(error){
 
-                        //     console.log(error); 
-                        // });
+                            console.log(error); 
+                        });
         
                     } else {
 

@@ -8,6 +8,16 @@ var request = require('request');
 var cheerio = require('cheerio');
 var removeEmpty = require('../libs/removeEmpty');
 
+// 데이터를 iamporter에서 조회를 해서 위변조가 방지됐는지를 확인한다.
+// iamport 사이트에서 REST API, SECRET 키를 복사해온다. 
+// 결제금액 등 결제정보를 iamport 사이트에서 조회할 수 있다.
+const { Iamporter, IamporterError } = require('iamporter');
+const iamporter = new Iamporter(
+    {
+        apiKey: '1246696873599986',
+        secret: 'jj65igSutn96mPW7ct19nUQoPaEDLto5Nva5M3zgqJnNyjULMVVaQLyGWdjIHINudYzZ29gtSDgrWadJ'
+    }
+);
 
 // 결제하기 화면
 router.get('/' , function(req, res){
@@ -35,6 +45,88 @@ router.get('/' , function(req, res){
         
     
     // res.render('checkout/index', { cartList : cartList , totalAmount : totalAmount, user : req.user } );
+});
+
+
+// 아임포트에서 데이터를 조회해오는 함수
+router.get('/complete', async (req,res)=>{
+
+    var payData = await iamporter.findByImpUid(req.query.imp_uid);
+    // 이 곳에서 아임포트와 내 디비에서 amount(총결제금액)이 일치하는지 비교하고
+    // 저장처리 분기(checkout.save())
+    var checkout = new CheckoutModel({
+    
+        imp_uid : payData.data.imp_uid,
+        merchant_uid : payData.data.merchant_uid,
+        paid_amount : payData.data.amount,
+        apply_num : payData.data.apply_num,
+        
+        buyer_email : payData.data.buyer_email,
+        buyer_name : payData.data.buyer_name,
+        buyer_tel : payData.data.buyer_tel,
+        buyer_addr : payData.data.buyer_addr,
+        buyer_postcode : payData.data.buyer_postcode,
+        status : "결재완료", 
+    });
+    
+    await checkout.save();
+    res.redirect('/checkout/success');
+   
+});
+
+// 결제처리 프로세스
+router.post('/complete', (req, res)=>{
+
+    var checkout = new CheckoutModel({
+
+        imp_uid : req.body.imp_uid,
+        merchant_uid : req.body.merchant_uid,
+        paid_amount : req.body.paid_amount,
+        apply_num : req.body.apply_num,
+        
+        buyer_email : req.body.buyer_email,
+        buyer_name : req.body.buyer_name,
+        buyer_tel : req.body.buyer_tel,
+        buyer_addr : req.body.buyer_addr,
+        buyer_postcode : req.body.buyer_postcode,
+
+        status : req.body.status,
+    });
+
+    checkout.save(function(err){
+        
+        res.json({message:"success"});
+    });
+
+});
+
+// 모바일 결제처리
+router.post('/mobile_complete', (req,res)=>{
+    
+    var checkout = new CheckoutModel({
+        
+        imp_uid : req.body.imp_uid,
+        merchant_uid : req.body.merchant_uid,
+        paid_amount : req.body.paid_amount,
+        apply_num : req.body.apply_num,
+        
+        buyer_email : req.body.buyer_email,
+        buyer_name : req.body.buyer_name,
+        buyer_tel : req.body.buyer_tel,
+        buyer_addr : req.body.buyer_addr,
+        buyer_postcode : req.body.buyer_postcode,
+
+        status : req.body.status,
+    });
+
+    checkout.save(function(err){
+        res.json({message:"success"});
+    });
+});
+
+// 결제완료 후
+router.get('/success', function(req,res){
+    res.render('checkout/success');
 });
 
 // GET 구매조회

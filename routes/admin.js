@@ -337,6 +337,25 @@ router.get('/products/detail/:id' , function(req, res){
     //     });
     // });
 
+// GET 어드민 등록제품 상세페이지
+router.get('/products/productsdetail/:id' , function(req, res){
+
+    var getData = async() => {
+        // async()함수를 만들고 return반환 후 처리가 다 되면 getData().then이 실행된다.
+        return {
+            
+            product : await ProductsModel.findOne( { 'id' :  req.params.id }).exec(),
+            comments : await CommentsModel.find( { 'product_id' :  req.params.id }).exec(),
+            reple : await repleModel.find( { 'products_id' :  req.params.id }).exec()
+        };
+    };
+    getData().then( function(result){
+        
+        res.render('admin/adminproductslistdetail', { product: result.product , comments : result.comments, reples : result.reple });
+    });
+});
+
+
 // 제품 수정페이지
 router.get('/products/edit/:id', loginRequired, csrfProtection, function(req, res){
     // 수정할 제품을 찾는다.
