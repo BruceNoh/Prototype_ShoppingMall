@@ -137,7 +137,7 @@ router.get('/myinfo', loginRequired, function(req, res){
     if(!req.user){
 
         console.log('사용자 인증불가');
-        res.redirect('login');
+        res.redirect('/accounts/login');
     }else{
 
         if(Array.isArray(req.user)){
@@ -149,7 +149,7 @@ router.get('/myinfo', loginRequired, function(req, res){
 });
 
 // POST 내 정보 수정처리
-router.post('/myinfo', function(req, res){
+router.post('/myinfo', loginRequired, function(req, res){
     // 수정 된 내 정보 데이터 받기
         var _id = req.user._id;
         var user_id = req.body.user_id;

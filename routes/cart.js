@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
+var loginRequired = require('../libs/loginRequired');
 
-router.get('/' , function(req, res){
+router.get('/' , loginRequired, function(req, res){
     
     var totalAmount = 0; //총결제금액
     var cartList = {}; //장바구니 리스트
