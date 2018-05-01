@@ -324,7 +324,7 @@
           <!-- Example Bar Chart Card-->
           <div class="card mb-3">
             <div class="card-header">
-              <i class="fa fa-bar-chart"></i> 일별 결제자 Bar Chart</div>
+              <i class="fa fa-bar-chart"></i> 결제수 및 일자 Bar Chart</div>
             <div class="card-body">
               <div class="row">
                 <div class="col-sm-8 my-auto">
@@ -336,7 +336,7 @@
                   -->
                 </div>
                 <div class="col-sm-4 text-center my-auto">
-                  <div class="h4 mb-0 text-primary">$34,693</div>
+                  <div class="h4 mb-0 text-primary"></div>
                   <div class="small text-muted">YTD Revenue</div>
                   <hr>
                   <div class="h4 mb-0 text-warning">$18,474</div>
@@ -735,7 +735,7 @@
                           if(typeof barData[key] === 'number'){
                             
                       %>
-                              ["<%=key%>", <%=barData[key]%> , "(<%=barData[key]%>)"],
+                              ["Day_<%=key%>", <%=barData[key]%> , "(<%=barData[key]%>)"],
                       <%
                               }
                           }
@@ -747,7 +747,7 @@
                   ]);
                   
                   // 데이터가 저장되는 컬럼값을 지정해주면 자동으로 그 컬럼에 맞게 정렬해준다.
-                  data.sort([{column: 0}]);           
+                  data.sort([{column: 0}]);          
 
                   //차트 상단에 나올 제목, 차트 전체에 세로 길이 등을 지정
                   var options = {
