@@ -648,7 +648,7 @@ router.get('/adminhome', adminRequired, function(req, res) {
 
         var barData = [];   // 넘겨줄 막대그래프 데이터 초기값 선언
         var pieData = [];   // 원차트에 넣어줄 데이터 삽입
-
+        var cnt = 1;
         // orderList에서 반복문을 돌려 order 파라미터로 전달
         orderList.forEach(function(order){
             // 08-10 형식으로 날짜를 받아온다
@@ -657,7 +657,7 @@ router.get('/adminhome', adminRequired, function(req, res) {
             
             // 날짜에 해당하는 키값으로 조회
             if(monthDay in barData){
-
+                cnt++;
                 barData[monthDay]++; // 있으면 더한다
                 console.log('barData[monthDay]++' + barData[monthDay]++);
             }else{
@@ -682,7 +682,12 @@ router.get('/adminhome', adminRequired, function(req, res) {
         // 어드민 홈에 보낼 데이터 (통계, 등록제품 목록)
         ProductsModel.find(function(err, products){
             
-            res.render('admin/adminhome', { barData : barData , pieData:pieData, products : products } );
+            res.render('admin/adminhome', 
+                { 
+                    barData : barData, cnt : cnt, 
+                    pieData:pieData, 
+                    products : products 
+                } );
         }); 
     });  
 });
