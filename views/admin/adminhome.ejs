@@ -22,7 +22,7 @@
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="index.html">Re:Mind Fashion Administrator</a>
+    <a class="navbar-brand" href="/admin/adminhome">Re:Mind Fashion Administrator</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -47,7 +47,7 @@
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
-          <a class="nav-link" href="charts.html">
+          <a class="nav-link" href="/admin/products/productschart">
             <i class="fa fa-fw fa-area-chart"></i>
             <span class="nav-link-text">Charts</span>
           </a>
@@ -324,7 +324,7 @@
           <!-- Example Bar Chart Card-->
           <div class="card mb-3">
             <div class="card-header">
-              <i class="fa fa-bar-chart"></i> Bar Chart Example</div>
+              <i class="fa fa-bar-chart"></i> 일별 결제자 Bar Chart</div>
             <div class="card-body">
               <div class="row">
                 <div class="col-sm-8 my-auto">
@@ -545,7 +545,7 @@
           <!-- Example Pie Chart Card-->
           <div class="card mb-3">
             <div class="card-header">
-              <i class="fa fa-pie-chart"></i> Pie Chart Example</div>
+              <i class="fa fa-pie-chart"></i> 결제 및 배송 Pie Chart </div>
               <!--
                 <i class="fa fa-pie-chart"></i> Pie Chart Example</div>
                 <div id="columnChart"></div>
@@ -611,10 +611,53 @@
       <!-- Example DataTables Card-->
       <div class="card mb-3">
         <div class="card-header">
-          <i class="fa fa-table"></i> Data Table Example</div>
+          <i class="fa fa-table"></i>등록상품 목록</div>
         <div class="card-body">
           <div class="table-responsive">
-            
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                      <tr align="center">
+                          <th width="10%" style="vertical-align: middle;">카테고리</th>
+                          <th width="15%" style="vertical-align: middle;">상품명</th>
+                          <th width="20%" style="vertical-align: middle;">상품이미지</th>
+                          <th width="10%" style="vertical-align: middle;">상품가격</th>
+                          <th width="10%" style="vertical-align: middle;">작성일</th>
+                          <th width="7%" style="vertical-align: middle;">삭제</th>
+                      </tr>
+                  </thead>
+                  <tfoot>
+                      <tr align="center">
+                          <th>카테고리</th>
+                          <th>상품명</th>
+                          <th>상품이미지</th>
+                          <th>상품가격</th>
+                          <th>작성일</th>
+                          <th>삭제</th>
+                      </tr>
+                  </tfoot>
+                      <tbody>
+                      <% products.forEach(function(products){ %>
+                      <tr align="center">
+                          <td style="vertical-align: middle;">
+                              <%= products.category %>
+                          </td>
+                          <td style="vertical-align: middle;">
+                              <a href="/admin/products/productsdetail/<%= products.id %>"><%= products.productname %></a>
+                          </td>
+                          <td width="200" style="vertical-align: middle;">
+                                  <img width="150" height="100" src="../../../uploads/<%=products.thumbnail%>">
+                          </td>
+                          <td style="vertical-align: middle;"><%- products.price %></td>
+                          <td style="vertical-align: middle;">
+                              <%= products.getDate.year %>년 <%= products.getDate.month %>월 <%= products.getDate.day %>일
+                          </td>
+                          <td style="vertical-align: middle;">
+                              <a href="/admin/products/delete/<%= products.id %>" class="btn btn-danger" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
+                          </td>
+                      </tr>
+                      <% }); %>
+                    </tbody>
+                  </table>
           </div>
         </div>
         <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>

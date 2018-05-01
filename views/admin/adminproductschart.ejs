@@ -8,14 +8,14 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <title>Admin - Re:Mind Fashion Administrator</title>
-  <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
   <!-- Bootstrap core CSS-->
-  <link href="../../public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="../../../public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom fonts for this template-->
-  <link href="../../public/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="../../../public/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Page level plugin CSS-->
+  <link href="../../../public/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
   <!-- Custom styles for this template-->
-  <link href="../../public/css/sb-admin.css" rel="stylesheet" type="text/css">
-  <!-- ../../ <- 위로 두 단계 가는 이유는 GET 라우트에서 호출경로가 /products/productsregist로 잡아줬기 때문이다. -->
+  <link href="../../../public/css/sb-admin.css" rel="stylesheet">
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -234,98 +234,102 @@
         <li class="breadcrumb-item">
           <a href="#">대시보드</a>
         </li>
-        <li class="breadcrumb-item active">상품등록</li>
+        <li class="breadcrumb-item active">관리 및 통계</li>
       </ol>
-      <!-- Area Chart Example-->
-      
-      
-      
-        <form action="" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="_csrf" value="<%=csrfToken%>" /><!-- 토큰발행 -->
-            <table class="table table-bordered">
-                <tr align="center">
-                    <th colspan="2">카   테   고   리</th>
-                </tr>
-                <tr>
-                    <th style="width: 150px; vertical-align: middle;">카테고리</th>
-                    <td><input type="text" name="category" class="form-control"/></td>
-                </tr>
-                <tr align="center">
-                    <th colspan="2">제   품   정   보</th>
-                </tr>
-                <tr>
-                    <th style="width: 150px; vertical-align: middle;">제품명</th>
-                    <td><input type="text" name="productname" class="form-control"/></td>
-                </tr>
-                <tr>
-                    <th style="width: 150px; vertical-align: middle;">가격</th>
-                    <td><input type="number" name="price" class="form-control"/></td>
-                </tr>
-                <tr>
-                    <th style="width: 150px; vertical-align: middle; horizontal-align: center;">섬네일(250x300px)</th>
-                    <td>
-                        <input type="file" name="thumbnail" />
-                        <% if(product.thumbnail){ %>
-                            <a href="/uploads/<%=product.thumbnail%>" target="_blank">업로드 이미지 보기</a>
-                        <% } %>
-                    </td>
-                </tr>
-                <tr>
-                    <th style="width: 150px; vertical-align: middle;">상세정보</th>
-                    <td><!-- 위지윅 에디터를 위한 summernote -->
-                        <textarea name="description" class="form-control" id="summernote"><%-product.description%></textarea>
-                    </td>
-                </tr>
-                <tr align="center">
-                    <th colspan="2">상   품   정   보      제   공   공   시</th>
-                </tr>
-                <tr>
-                    <th style="width: 150px; vertical-align: middle;">상품등록자</th>
-                    <td><input type="text" name="user_name" value="<%= user.user_id %>" readonly class="form-control"/></td>
-                </tr>
-                <tr>
-                    <th style="width: 150px; vertical-align: middle;">상품군</th>
-                    <td><input type="text" name="productgun" class="form-control"/></td>
-                </tr>
-                <tr>
-                    <th style="width: 150px; vertical-align: middle;">용량 및 중량</th>
-                    <td><input type="text" name="productweight" class="form-control"/></td>
-                </tr>
-                <tr>
-                    <th style="width: 150px; vertical-align: middle;">제품 주요사양</th>
-                    <td><input type="text" name="productspec" class="form-control"/></td>
-                </tr>
-                <tr>
-                    <th style="width: 150px; vertical-align: middle;">제조판매업자</th>
-                    <td><input type="text" name="productmaker" class="form-control"/></td>
-                </tr>
-                <tr>
-                    <th style="width: 150px; vertical-align: middle;">사용방법</th>
-                    <td><textarea type="text" name="productusing" class="form-control"></textarea></td>
-                </tr>
-                <tr>
-                    <th style="width: 150px; vertical-align: middle;">소비자 상담</th>
-                    <td><input type="text" name="customercall" class="form-control"/></td>
-                </tr>
-                <tr align="center">
-                    <th colspan="2">배   송   정   보</th>
-                </tr>
-                <tr>
-                    <th style="width: 150px; vertical-align: middle;">배송비</th>
-                    <td><input type="number" name="productdelivery" class="form-control"/></td>
-                </tr>
-                <tr>
-                    <th style="width: 150px; vertical-align: middle;">교환반품</th>
-                    <td><input type="number" name="productredelivery" class="form-control"/></td>
-                </tr>
-            </table>
-              <div align="center"><button class="btn btn-primary">작성하기</button></div><br/>
-        </form>
+      <!-- Example DataTables Card-->
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-table"></i> 결제 및 배송상태</div>
+        <div class="card-body">
+          <div class="table-responsive">
+                    <div class="col-sm-10">
+            <div class="panel panel-default">
+                <div class="panel-heading">통계 현황</div>
+                <div class="panel-body">
+                    <div id="columnChart"></div>
+                    <div id="pieChart"></div>
+                </div>
+            </div>
+        </div>
+        <!-- 구글 통계차트 모듈로드 -->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         
+                <script>
+                        //차트 로딩 시작
+                        google.charts.load("current", {packages:["corechart"]});
+                        //막대기 차트를 그린다. 인자로 함수를 지정
+                        google.charts.setOnLoadCallback(drawbar);
+
+                        function drawbar() {
+                        var data = google.visualization.arrayToDataTable([
+
+                            //첫줄은 [ x축, y축, 상단에 나올숫자 의미 ]
+                            ['날짜', '결제자수', { role: 'annotation' } ],
+
+                            //그다음부터 데이터
+                            <% for( key in barData ){
+                                if(typeof barData[key] === 'number'){
+                            %>
+                                    ["<%=key%>", <%=barData[key]%> , "(<%=barData[key]%>)"],
+                            <%
+                                    }
+                                }
+                            %>
+                            //그다음부터 데이터
+                            // ["08-10", 10 , "(10)"],
+                            // ["08-11", 20 , "(20)"],
+                            // ["08-12", 30 , "(30)"],
+                        ]);
+
+                        //차트 상단에 나올 제목, 차트 전체에 세로 길이등을 지정
+                        var options = {
+                            title: '결제자수',
+                            height: 400,
+                            chartArea: {width: '50%'},
+                        };
+
+                        var chart = new google.visualization.ColumnChart(
+                            document.getElementById('columnChart')
+                        );
+                        chart.draw(data, options);
+                        }
+
+                        // 파이 차트(원형 도넛)를 그린다.
+                        google.charts.setOnLoadCallback(drawpie);
+                        function drawpie() {
+                        
+                        var data = google.visualization.arrayToDataTable([
+                            ['Task', 'Hours per Day'],
+                            
+                            <% for( key in pieData ){
+                                if(typeof pieData[key] === 'number'){
+                            %>
+                                ['<%=key%>',  <%=pieData[key]%>],
+                            <%
+                                }
+                                }
+                            %>
+                        ]);
+                        // var data = google.visualization.arrayToDataTable([
+                        //     ['Task', 'Hours per Day'],
+                        //     ['결재자',  50],
+                        //     ['미결재자',  10]
+                        // ]);
+
+                        var options = {
+                        title: '상품 상태',
+                        height: 300
+                        };
+
+                        var chart = new google.visualization.PieChart(document.getElementById('pieChart'));
+                        chart.draw(data, options);
+                        }
+                </script>
+          </div>
+        </div>
+        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+      </div>
     </div>
-
-
-
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
     <footer class="sticky-footer">
@@ -352,90 +356,24 @@
           <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="/admin/logout">Logout</a>
+            <a class="btn btn-primary" href="login.html">Logout</a>
           </div>
         </div>
       </div>
     </div>
-
-
-                
-
-
     <!-- Bootstrap core JavaScript-->
-    <script src="../../public/vendor/jquery/jquery.min.js"></script>
-    <script src="../../public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../public/vendor/jquery/jquery.min.js"></script>
+    <script src="../../../public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
-    <script src="../../public/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../../../public/vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Page level plugin JavaScript-->
-    <script src="../../public/vendor/chart.js/Chart.min.js"></script>
+    <script src="../../../public/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="../../../public/vendor/datatables/dataTables.bootstrap4.js"></script>
     <!-- Custom scripts for all pages-->
-    <script src="../../public/js/sb-admin.min.js"></script>
+    <script src="../../../public/js/sb-admin.min.js"></script>
     <!-- Custom scripts for this page-->
-    <script src="../../public/js/sb-admin-charts.min.js"></script>
-
-
-
-    
-    <!-- 스타일관련 -->
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/summernote.css" rel="stylesheet">
-    <!-- 자바스크립트관련 -->
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/summernote.js"></script>
-    <!-- 한글관련 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/lang/summernote-ko-KR.min.js"></script>
-
-        
-
-        <script>
-
-            // 위지윅에서 이미지 업로드 후 작성하기 전 remove하여 makeError 예방
-            $('#editForm').submit(function(){
-                // 해당 위지익 업로드 이미지를 리무브 해준다.
-                $('input[name=files]').remove();
-            });
-
-            // 위지윅 이미지 데이터가 ajax 배열로 담겨서 업로드한다.
-            $(document).ready(function(){
-
-                $('#summernote').summernote({
-
-                    lang: 'ko-KR',
-                    height: 300,
-                    callbacks : {
-                        onImageUpload : function(files){
-                            sendFile(files[0]);
-                        }
-                    }
-                });
-            });
-
-            // ajax로 데이터를 전달하는데 backend 라우팅으로 파일만 내보내고
-            // insertImage라는 api를 통해 url만 넣어주면 화면의 이미지를 볼 수 있다.
-            function sendFile(file, editor, welEditable){
-
-                data = new FormData();
-                data.append("thumbnail", file);
-                
-                $.ajax({
-
-                    data : data,
-                    type : "POST",
-                    url : '/admin/products/ajax_summernote/',
-                    cache : false,
-                    contentType : false,
-                    processData : false,
-                    success : function(url){
-                        $('#summernote').summernote("insertImage", url);
-                    }
-                });
-            }
-        </script>
-
-
+    <script src="../../../public/js/sb-admin-datatables.min.js"></script>
   </div>
-
-    
-
 </body>
 
 </html>

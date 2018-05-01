@@ -66,7 +66,7 @@ router.get('/complete', async (req,res)=>{
         buyer_tel : payData.data.buyer_tel,
         buyer_addr : payData.data.buyer_addr,
         buyer_postcode : payData.data.buyer_postcode,
-        status : "결재완료", 
+        status : "결제완료", 
     });
     
     await checkout.save();
