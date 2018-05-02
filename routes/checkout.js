@@ -1,4 +1,4 @@
-var express = require('express');
+﻿var express = require('express');
 var router = express.Router();
 var UserModel = require('../models/UserModel');
 var CheckoutModel = require('../models/CheckoutModel');
@@ -21,7 +21,7 @@ const iamporter = new Iamporter(
 
 // 결제하기 화면
 router.get('/' , function(req, res){
-    
+/*    
     var totalAmount = 0; //총결제금액
     var cartList = {}; //장바구니 리스트
     //쿠키가 있는지 확인해서 뷰로 넘겨준다
@@ -45,6 +45,21 @@ router.get('/' , function(req, res){
         
     
     // res.render('checkout/index', { cartList : cartList , totalAmount : totalAmount, user : req.user } );
+*/
+
+    try {
+        UserModel.findOne(
+            {
+                id: req.session.passport.user.id
+            },
+            function(error, document) {
+            if(error) res.status(500).json(error)
+                else res.render('checkout/index', {cartList: document.cart, totalAmount: 0, user: req.user})
+            }
+        )
+    } catch(error) {
+        res.redirect('accounts/login')
+    }
 });
 
 
