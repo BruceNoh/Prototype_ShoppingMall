@@ -208,7 +208,7 @@ router.post('/products/productsregist', loginRequired, upload.single('thumbnail'
         
         product.save(function(err){
             
-            res.redirect('/admin/products');
+            res.redirect('/admin/adminproductslist');
         });
     }
     // 데이터를 받고 저장
@@ -459,7 +459,8 @@ router.get('/products/delete/:id', function(req, res){
             id : req.params.id
         }, function(err){
             // 삭제 후 제품목록으로 이동
-            res.redirect('/admin/products');
+            // res.redirect('/admin/products');
+            res.redirect('/admin/products/productslist');
         }
     );
 });
