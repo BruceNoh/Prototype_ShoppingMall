@@ -208,7 +208,7 @@ router.post('/products/productsregist', loginRequired, upload.single('thumbnail'
         
         product.save(function(err){
             
-            res.redirect('/admin/adminproductslist');
+            res.redirect('/products/productslist');
         });
     }
     // 데이터를 받고 저장
@@ -265,7 +265,7 @@ router.get('/products', paginate.middleware(5, 50), async (req,res) => {
 
 
 // GET 어드민 홈 등록제품 목록페이지
-router.get('/products/productslist', paginate.middleware(5, 50), async (req, res) => {
+router.get('/products/productslist', paginate.middleware(100, 100), async (req, res) => {
 
     if(!req.isAuthenticated()){
 
@@ -280,7 +280,7 @@ router.get('/products/productslist', paginate.middleware(5, 50), async (req, res
         const pageCount = Math.ceil(itemCount / req.query.limit);
         
         const pages = paginate.getArrayPages(req)( 4 , pageCount, req.query.page);
-
+        console.log(results);
         res.render('admin/adminproductslist', 
             { 
                 products : results , 
