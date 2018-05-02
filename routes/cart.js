@@ -1,9 +1,17 @@
-var express = require('express');
+﻿var express = require('express');
 var router = express.Router();
 var loginRequired = require('../libs/loginRequired');
 
+<<<<<<< HEAD
 router.get('/' , loginRequired, function(req, res){
     
+=======
+const mongoose = require('mongoose')
+const UserModel = require('../models/UserModel')
+
+router.get('/' , function(req, res) {
+/*    
+>>>>>>> 9defa82bd75035f87650f9ba388a5d8fe6955dd0
     var totalAmount = 0; //총결제금액
     var cartList = {}; //장바구니 리스트
     //쿠키가 있는지 확인해서 뷰로 넘겨준다
@@ -20,7 +28,72 @@ router.get('/' , loginRequired, function(req, res){
         }
     }
     res.render('cart/index', { cartList : cartList , totalAmount : totalAmount } );
+*/
+    try {
+        UserModel.findOne(
+            {
+                id: req.session.passport.user.id
+            },
+            function(error, document) {
+            if(error) res.status(500).json(error)
+                else res.render('cart/index', {cartList: document.cart, totalAmount: 0})
+            }
+        )
+    } catch(error) {
+        res.redirect('accounts/login')
+    }
 });
 
+router.post('/add', function(req, res) {
+    UserModel.findOneAndUpdate(
+        {
+            id: req.session.passport.user.id
+        },
+        {
+            $push: {
+                cart: {
+                    _id: new mongoose.mongo.ObjectId(),
+                    id: parseInt(req.body.id),
+                    name: req.body.name,
+                    number: parseInt(req.body.number),
+                    amount: parseInt(req.body.amount),
+                    thumbnail: req.body.thumbnail
+                }
+            }
+        },
+        {
+//            upsert: true
+        },
+        function(error) {
+            if(error) res.status(500).json(error)
+            else res.json({success: true})
+        }
+    )
+})
+
+router.delete('/delete', function(req, res) {
+    UserModel.findOneAndUpdate(
+        {
+            id: req.session.passport.user.id
+        },
+        {
+
+            $pull: {
+                cart: {
+                    _id: new mongoose.mongo.ObjectId(req.body.id)
+                }
+            }
+
+        },
+        {
+//            safe: true
+        },
+        function(error) {
+            if(error) {res.status(500).json(error); console.error(error)}
+            else res.json({success: true})
+        }
+    )
+})
+ 
 
 module.exports = router;

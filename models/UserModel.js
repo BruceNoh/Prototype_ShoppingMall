@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+﻿var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
 
@@ -27,7 +27,8 @@ var UserSchema = new Schema({
     user_email : String,
     user_addr : String,
     user_addr2 : String,
-    user_post : String
+    user_post : String,
+    cart: Array
 });
 
 // 
