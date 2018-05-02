@@ -88,6 +88,27 @@ router.delete('/delete', function(req, res) {
         }
     )
 })
- 
+
+router.delete('/deleteAll', function(req, res) {
+    UserModel.findOneAndUpdate(
+        {
+            id: req.session.passport.user.id
+        },
+        {
+
+            $set: {
+                cart: []
+            }
+
+        },
+        {
+//            safe: true
+        },
+        function(error) {
+            if(error) {res.status(500).json(error); console.error(error)}
+            else res.json({success: true})
+        }
+    )
+}) 
 
 module.exports = router;

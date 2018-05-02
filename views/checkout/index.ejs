@@ -1,4 +1,4 @@
-<% include ../header.ejs %>
+﻿<% include ../header.ejs %>
 
     <h3 class="page-header">결제페이지</h3>
     <table class="table table-bordered table-hover">
@@ -10,8 +10,11 @@
         </tr>
 
         <% 
-            if( Object.keys(cartList).length ){ 
-                for( let key in cartList){
+//            if( Object.keys(cartList).length ){ 
+//                for( let key in cartList){
+            if(cartList.length) {
+                for(var key=0; key<cartList.length; key++) {
+                    totalAmount += cartList[key].amount
         %>
             <tr>
                 <td>
@@ -130,7 +133,7 @@
                     // 결제 성공 시
                     if ( rsp.success ) {
                         // 가격만 맞춰준다.
-                        document.location.href = "/checkout/complete?imp_uid=" + rsp.imp_uid;
+//                        document.location.href = "/checkout/complete?imp_uid=" + rsp.imp_uid;
                         //요청 성공후 ajax POST요청한다.
                         // $.ajax({
                         //     url: '/checkout/complete', // 결제성공시 호출
@@ -158,6 +161,17 @@
                         //     console.log(error); 
                         // });
         
+                        $.ajax({
+                            url: '/cart/deleteAll',
+                            type: 'delete',
+                            success: function(data) {
+                                if(!data.success) alert('장바구니 데이터 삭제에 실패했습니다.')
+                                document.location.href = "/checkout/complete?imp_uid=" + rsp.imp_uid;
+                            },
+                            error: function(error) {
+                                alert('장바구니 데이터 삭제에 실패했습니다.')
+                            }
+                        })
                     } else {
 
                         let msg = '결제에 실패하였습니다.';
