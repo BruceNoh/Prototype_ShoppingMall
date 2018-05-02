@@ -2,16 +2,11 @@
 var router = express.Router();
 var loginRequired = require('../libs/loginRequired');
 
-<<<<<<< HEAD
-router.get('/' , loginRequired, function(req, res){
-    
-=======
 const mongoose = require('mongoose')
 const UserModel = require('../models/UserModel')
 
 router.get('/' , function(req, res) {
 /*    
->>>>>>> 9defa82bd75035f87650f9ba388a5d8fe6955dd0
     var totalAmount = 0; //총결제금액
     var cartList = {}; //장바구니 리스트
     //쿠키가 있는지 확인해서 뷰로 넘겨준다
