@@ -8,7 +8,7 @@ var paginate = require('express-paginate');
 
 
 // GET Collection
-router.get('/collections', paginate.middleware(30, 50), async (req, res) => {
+router.get('/collections', paginate.middleware(40, 50), async (req, res) => {
 
     const [results, itemCount ] = await Promise.all([
 

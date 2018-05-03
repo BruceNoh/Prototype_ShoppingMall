@@ -15,11 +15,64 @@
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!-- 장바구니 담기 공통모듈 -->
     <script type="text/javascript" src="/static/common.js"></script>
-                
+    <style>
+        a {
+            color: black;
+        }
+        a:hover {
+            color: black;
+        }
+        .h6 {
+            color:  green;
+        }
+        .rightDiv {
+            width: 260px;
+            }
+        .scale {
+            transform: scale(1);
+            -webkit-transform: scale(1);
+            -moz-transform: scale(1);
+            -ms-transform: scale(1);
+            -o-transform: scale(1);
+            transition: all 0.3s ease-in-out;   /* 부드러운 모션을 위해 추가*/
+        }
+        .scale:hover {
+            transform: scale(1.2);
+            -webkit-transform: scale(1.2);
+            -moz-transform: scale(1.2);
+            -ms-transform: scale(1.2);
+            -o-transform: scale(1.2);
+        }
+        .imgeffect {width:250px; height:300px; overflow:hidden }   /* 부모를 벗어나지 않고 내부 이미지만 확대 */
+    </style>        
+    <script>
+        function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+    </script>    
 </head>
 <body>
 
-
+    <div class="container" style="">
+            <div class="" style="height:50;"> 
+                <div class="" id="">
+                    <ul class="nav navbar-nav navbar-right">
+                        <% if(isLogin){%>
+                            <li><a href="/accounts/logout" onclick="return confirm('로그아웃 하시겠습니까?')">LOGOUT</a></li>
+                        <%}else{%>
+                            <li><a href="/accounts/join">JOIN</a></li> 
+                            <li><a href="/accounts/login">LOGIN</a></li>  
+                        <%}%>
+                        <li><a href="/accounts/myinfo">MYINFO</a></li>
+                        <li><a href="/cart">CART</a></li>
+                        <li><a href="/chat">CHAT</a></li>
+                        <li><a href="/checkout/nomember">구매조회</a></li> 
+                    </ul> 
+                </div>
+            </div>     
+        </nav>
+    </div>
     <div class="container" style="padding-top:10px;">
         <nav class="navbar navbar-inverse"> 
             <div class="container-fluid"> 
@@ -31,7 +84,7 @@
                         <span class="icon-bar"></span> 
                         <span class="icon-bar"></span>
                     </button> 
-                    <a href="#" class="navbar-brand">Re:Mind Fashion</a>
+                    <a href="/home" class="navbar-brand">Re:Mind Fashion</a>
                 </div> 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
                     <ul class="nav navbar-nav navbar-center">
@@ -41,22 +94,8 @@
                         <li>
                             <a href="/collections/collections">Collection</a>
                         </li>
-                        <li><a href="/admin/products">ADMIN</a></li>
-                        <li><a href="/cart">CART</a></li>
-                        <li><a href="/accounts/myinfo">MYINFO</a></li>
-                        <li><a href="/chat">CHAT</a></li>
                         <li><a href="/qna/list">Q&A</a></li>
-                        <% if(isLogin){%>
-                            <li><a href="/accounts/logout" onclick="return confirm('로그아웃 하시겠습니까?')">LOGOUT</a></li>
-                        <%}else{%>
-                            <li><a href="/accounts/join">JOIN</a></li> 
-                            <li><a href="/accounts/login">LOGIN</a></li>  
-                        <%}%>
                     </ul> 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/checkout/nomember">구매조회</a></li> 
-                    </ul>
-                </div> 
-            
+                </div>     
         </nav>
     </div>

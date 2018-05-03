@@ -26,7 +26,27 @@
     </div>
 // 페이징 처리
 
-
+// collections.ejs GET 컬렉션 상품목록
+// <div class="container" id="masonry_container" align="center">
+//         <% products.forEach(function(product){ %>
+//         <div class="masonry-grid">
+//             <a href="/products/<%=product.id%>">
+//                 <%if(product.thumbnail){%>
+//                     <img width="250" height="300" src="../uploads/<%=product.thumbnail%>">
+//                 <%}%>
+//                 <p>
+//                     <%=product.title%><br/>
+//                     by <%=product.username%>(
+//                     <%=product.getDate.year%>.
+//                     <%=product.getDate.month%>.
+//                     <%=product.getDate.day%>
+//                     )
+//                 </p>
+//             </a>
+//         </div>
+//         <%});%>
+//     </div>
+// collections.ejs GET 컬렉션 상품목록
 
 
 

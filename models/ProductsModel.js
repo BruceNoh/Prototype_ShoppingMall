@@ -57,6 +57,12 @@ ProductsSchema.virtual('getDate').get(function(){
     };
 });
 
+// numberFormat 적용
+ProductsSchema.virtual('getAmountFormat').get(function(){
+    // 1000원을 1,000원으로 바꿔준다.
+    return new Intl.NumberFormat().format(this.price);
+});
+
 // 전역 모듈로 해당 스키마를 products라는 키값으로 내보낸다.
 module.exports = mongoose.model('products', ProductsSchema);
 

@@ -2,25 +2,30 @@
     
     
     
-       
-    <div class="container" id="masonry_container">
-        <% products.forEach(function(product){ %>
-        <div class="masonry-grid">
-            <a href="/products/<%=product.id%>">
-                <%if(product.thumbnail){%>
-                    <img width="250" height="300" src="../uploads/<%=product.thumbnail%>">
-                <%}%>
-                <p>
-                    <%=product.title%><br/>
-                    by <%=product.username%>(
-                    <%=product.getDate.year%>.
-                    <%=product.getDate.month%>.
-                    <%=product.getDate.day%>
-                    )
-                </p>
-            </a>
+    <br/>   
+    
+
+    <div class="col-lg-12">
+        <div class="container" style="padding-top:15px;">
+        <div class="container" id="masonry_container">
+            <% products.forEach(function(product){ %>
+            <div class="masonry-grid" align="center"><br/>
+                <a href="/products/<%=product.id%>">
+                    <%if(product.thumbnail){%>
+                        <div class="imgeffect">
+                            <div class="scale">
+                                <img width="250" height="300" src="/uploads/<%=product.thumbnail%>">
+                            </div>
+                        </div>
+                    <%}%>
+                    <p>
+                        <div class="rightDiv"></h6><%=product.productname%></h6></div>   
+                    </p>
+                </a><h6 class="h6"><%=product.getAmountFormat%>원</h6><br/>
+            </div> 
+            <%});%>
         </div>
-        <%});%>
+        </div>
     </div>
 
 
@@ -72,3 +77,4 @@
 
 
 <% include ./footer.ejs %>
+

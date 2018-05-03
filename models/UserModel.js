@@ -31,7 +31,7 @@ var UserSchema = new Schema({
     cart: Array
 });
 
-// 
+// 회원정보 id 자동증가
 UserSchema.plugin( autoIncrement.plugin,
     {
         model : "user",
@@ -39,6 +39,7 @@ UserSchema.plugin( autoIncrement.plugin,
         startAt : 1
     }
 );
+
 
 module.exports = mongoose.model('user', UserSchema);
 

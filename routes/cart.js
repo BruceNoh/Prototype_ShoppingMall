@@ -5,7 +5,7 @@ var loginRequired = require('../libs/loginRequired');
 const mongoose = require('mongoose')
 const UserModel = require('../models/UserModel')
 
-router.get('/' , function(req, res) {
+router.get('/' , loginRequired, function(req, res) {
 /*    
     var totalAmount = 0; //총결제금액
     var cartList = {}; //장바구니 리스트

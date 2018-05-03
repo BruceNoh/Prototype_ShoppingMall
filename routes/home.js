@@ -8,7 +8,7 @@ var paginate = require('express-paginate');
 
 
 // GET Home
-router.get('/', paginate.middleware(30, 50), async (req, res) => {
+router.get('/', paginate.middleware(8, 50), async (req, res) => {
 
     const [results, itemCount ] = await Promise.all([
 
