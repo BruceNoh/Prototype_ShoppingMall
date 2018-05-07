@@ -240,57 +240,55 @@
         <li class="breadcrumb-item">
           <a href="#">대시보드</a>
         </li>
-        <li class="breadcrumb-item active">상품리스트</li>
+        <li class="breadcrumb-item active">주문리스트</li>
       </ol>
       <!-- Example DataTables Card-->
       <div class="card mb-3">
         <div class="card-header">
-          <i class="fa fa-table"></i> 등록상품 목록</div>
+          <i class="fa fa-table"></i> 주문상품 목록</div>
         <div class="card-body">
           <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr align="center">
-                    <th width="10%" style="vertical-align: middle;">카테고리</th>
-                    <th width="15%" style="vertical-align: middle;">상품명</th>
-                    <th width="20%" style="vertical-align: middle;">상품이미지</th>
-                    <th width="10%" style="vertical-align: middle;">상품가격</th>
-                    <th width="10%" style="vertical-align: middle;">작성일</th>
-                    <th width="7%" style="vertical-align: middle;">삭제</th>
+                    <th width="10%" style="vertical-align: middle;">주문자(이메일)</th>
+                    <th width="10%" style="vertical-align: middle;">결제및배송</th>
+                    <th width="4%" style="vertical-align: middle;">금액</th>
+                    <th width="15%" style="vertical-align: middle;">주소</th>
+                    <th width="4%" style="vertical-align: middle;">날짜</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr align="center">
-                    <th>카테고리</th>
-                    <th>상품명</th>
-                    <th>상품이미지</th>
-                    <th>상품가격</th>
-                    <th>작성일</th>
-                    <th>삭제</th>
+                    <th>주문자(이메일)</th>
+                    <th>결제및배송</th>
+                    <th>금액</th>
+                    <th>주소</th>
+                    <th>날짜</th>
                 </tr>
             </tfoot>
-                <tbody>
-                <% products.forEach(function(products){ %>
+                <% orderList.forEach( function(order){ %>
                 <tr align="center">
-                    <td style="vertical-align: middle;">
-                        <%= products.category %>
+                    <td style="vertical-align: middle; font-size: 0.7em;">
+                        <a href="/admin/order/edit/<%=order.id%>">
+                            <%=order.buyer_name%> ( <%=order.buyer_email%> )
+                        </a>
                     </td>
-                    <td style="vertical-align: middle;">
-                        <a href="/admin/products/productsdetail/<%= products.id %>"><%= products.productname %></a>
+                    <td style="vertical-align: middle; font-size: 0.7em;">
+                        <%=order.status%> 
+                        <%if(order.status==='배송중'){%>
+                        <a href="/checkout/shipping/<%=order.song_jang%>">( 위치추적 )</a>
+                        <%}%>
                     </td>
-                    <td width="200" style="vertical-align: middle;">
-                            <img width="150" height="100" src="../../../uploads/<%=products.thumbnail%>">
-                    </td>
-                    <td style="vertical-align: middle;"><%- products.price %></td>
-                    <td style="vertical-align: middle;">
-                        <%= products.getDate.year %>년 <%= products.getDate.month %>월 <%= products.getDate.day %>일
-                    </td>
-                    <td style="vertical-align: middle;">
-                        <a href="/admin/products/delete/<%= products.id %>" class="btn btn-danger" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
+                    <td style="vertical-align: middle; font-size: 0.7em;"><%=order.getAmountFormat%></td>
+                    <td style="vertical-align: middle; font-size: 0.7em;"><%=order.buyer_addr%></td>
+                    <td style="vertical-align: middle; font-size: 0.7em;">
+                        <%=order.getDate.year%>년  
+                        <%=order.getDate.month%>월  
+                        <%=order.getDate.day%>일
                     </td>
                 </tr>
-                <% }); %>
-              </tbody>
+                <%});%>
             </table>
           </div>
         </div>
