@@ -1,48 +1,46 @@
 <% include ../header.ejs %>
-    <form action="" method="post" enctype="multipart/form-data">
+    <form action="" method="post">
         <input type="hidden" name="_csrf" value="<%=csrfToken%>" /><!-- 토큰발행 -->
-        
+        <input type="hidden" name="qnaname" value="<%=qna.user_name%>"/>
         <table class="table table-bordered">
             <tr>
                 <th colspan="2">1 : 1 Question</th>
             </tr>
             <tr>
-                <th>이   름</th>
-                <td><input type="text" name="qnaname" class="form-control" value="<%= qna.username %>"/></td>
-            </tr>
-            <tr>
                 <th>분   류</th>
                 <td>
-                    <select class="form-control">
-                        <option value="bunryu1">교환&반품</option>
-                        <option value="bunryu2">배송변경&취소</option>
-                        <option value="bunryu3">결제&입금</option>
-                        <option value="bunryu4">배송&상품</option>
+                    <select class="form-control" name="qnacategory">
+                        <option value="교환&반품">교환&반품</option>
+                        <option value="배송변경&취소">배송변경&취소</option>
+                        <option value="결제&입금">결제&입금</option>
+                        <option value="배송&상품">배송&상품</option>
                     </select>
                 </td>
             </tr>
             <tr>
                 <th>이   메   일</th>
-                <td><input type="text" name="qnaemail" class="form-control"/></td>
+                <td><input type="text" name="qnaemail" class="form-control" value="<%=qna.user_email%>"/></td>
             </tr>
             <tr>
                 <th>핸   드   폰</th>
-                <td><input type="text" name="qnaphone" class="form-control"/></td>
+                <td><input type="text" name="qnaphone" class="form-control" value="<%=qna.user_phone%>"/></td>
             </tr>
             <tr>
                 <th>제   목</th>
                 <td><input type="text" name="qnatitle" class="form-control"/></td>
             </tr>
             <tr>
-                <th>비 밀 번 호</th>
-                <td><input type="text" name="qnapwd" class="form-control"/></td>
-            </tr>
-            <tr>
                 <th>내   용</th>
                 <td><textarea name="qnacontent" class="form-control"/></textarea></td>
             </tr>
+            <tr>
+              <th colspan="2">
+                비밀글?
+                <input type="checkbox" name="qnasecret" value="secret"/>
+              </th>
+            </tr>
         </table>
-        
+
         <button class="btn btn-primary">질문하기</button>
     </form>
 
@@ -54,6 +52,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/lang/summernote-ko-KR.min.js"></script>
 
     <script>
+      $('button').on('click', function(e) {
+        e.preventDefault();
+
+        if($('input[name=qnatitle]').val() === '' || $('textarea[name=qnacontent]').val() === '') {
+          alert('입력하지 않은 항목이 있습니다.');
+          return;
+        }
+
+        $('form').submit();
+      })
 
         // 위지윅에서 이미지 업로드 후 작성하기 전 remove하여 makeError 예방
         $('#editForm').submit(function(){
@@ -82,7 +90,7 @@
 
             data = new FormData();
             data.append("thumbnail", file);
-            
+
             $.ajax({
 
                 data : data,

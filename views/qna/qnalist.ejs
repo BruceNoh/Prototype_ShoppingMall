@@ -1,49 +1,40 @@
 <% include ../header.ejs %>
-
     <table class="table table-bordered table-hover">
         <tr>
-            <th>No</th>
+            <th>Category</th>
             <th>Title</th>
-            <th>Content</th>
             <th>Name</th>
             <th>Date</th>
+            <th>Answer</th>
         </tr>
-        <tr>
+        <% documents.forEach(function(currentValue) { %>
+          <%
+            time = new Date(currentValue.time)
+          %>
+          <tr>
             <td>
-                <a href="#"></a>
+              <%=currentValue.category%>
             </td>
             <td>
-                <a href="#"></a>
+              <% if(currentValue.secret) { %>
+                <i class="fa fa-lock"></i>
+              <% } %>
+              <a href="<%=currentValue._id%>"><%=currentValue.title%></a>
             </td>
             <td>
-                <a href="#"></a>
+              <%=currentValue.name%>
             </td>
             <td>
-                <a href="#"></a>
+              <%=time.getFullYear()%>-<%=time.getMonth()+1%>-<%=time.getDate()%> <%=time.getHours()%>:<%=time.getMinutes()%>
             </td>
             <td>
-                <a href="#"></a>
+              <%=currentValue.answer?"Y":"N"%>
             </td>
-        </tr>
+          </tr>
+        <% }) %>
     </table>
 
 
     <a href="/qna/write" class="btn btn-default">Question</a>
 
 <% include ../footer.ejs %>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
