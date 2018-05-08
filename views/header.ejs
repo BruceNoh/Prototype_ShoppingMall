@@ -54,25 +54,6 @@
 </head>
 <body>
 
-    <div class="container" style="">
-            <div class="" style="height:50;"> 
-                <div class="" id="">
-                    <ul class="nav navbar-nav navbar-right">
-                        <% if(isLogin){%>
-                            <li><a href="/accounts/logout" onclick="return confirm('로그아웃 하시겠습니까?')">LOGOUT</a></li>
-                        <%}else{%>
-                            <li><a href="/accounts/join">JOIN</a></li> 
-                            <li><a href="/accounts/login">LOGIN</a></li>  
-                        <%}%>
-                        <li><a href="/accounts/myinfo">MYINFO</a></li>
-                        <li><a href="/cart">CART</a></li>
-                        <li><a href="/chat">CHAT</a></li>
-                        <li><a href="/checkout/nomember">구매조회</a></li> 
-                    </ul> 
-                </div>
-            </div>     
-        </nav>
-    </div>
     <div class="container" style="padding-top:10px;">
         <nav class="navbar navbar-inverse"> 
             <div class="container-fluid"> 
@@ -96,6 +77,18 @@
                         </li>
                         <li><a href="/qna/list">Q&A</a></li>
                     </ul> 
+                    <ul class="nav navbar-nav navbar-right">
+                        <% if(isLogin){%>
+                            <li ><a href="/accounts/logout" onclick="return confirm('로그아웃 하시겠습니까?')">LOGOUT</a></li>
+                        <%}else{%>
+                            <li><a href="/accounts/join">JOIN</a></li> 
+                            <li><a href="/accounts/login">LOGIN</a></li>  
+                        <%}%>
+                        <li><a href="/accounts/myinfo">MYINFO</a></li>
+                        <li><a href="/cart">CART</a></li>
+                        <li><a href="/chat">CHAT</a></li>
+                        <li><a href="/checkout/nomember">구매조회</a></li> 
+                    </ul>
                 </div>     
         </nav>
     </div>
