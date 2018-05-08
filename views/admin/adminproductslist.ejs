@@ -272,20 +272,20 @@
                 <tbody>
                 <% products.forEach(function(products){ %>
                 <tr align="center">
-                    <td style="vertical-align: middle;">
+                    <td style="vertical-align: middle; font-size: 0.7em;">
                         <%= products.category %>
                     </td>
-                    <td style="vertical-align: middle;">
+                    <td style="vertical-align: middle; font-size: 0.7em;">
                         <a href="/admin/products/productsdetail/<%= products.id %>"><%= products.productname %></a>
                     </td>
                     <td width="200" style="vertical-align: middle;">
                             <img width="150" height="100" src="../../../uploads/<%=products.thumbnail%>">
                     </td>
-                    <td style="vertical-align: middle;"><%- products.price %></td>
-                    <td style="vertical-align: middle;">
+                    <td style="vertical-align: middle; font-size: 0.7em;"><%-products.price %></td>
+                    <td style="vertical-align: middle; font-size: 0.7em;">
                         <%= products.getDate.year %>년 <%= products.getDate.month %>월 <%= products.getDate.day %>일
                     </td>
-                    <td style="vertical-align: middle;">
+                    <td style="vertical-align: middle; font-size: 0.7em;">
                         <a href="/admin/products/delete/<%= products.id %>" class="btn btn-danger" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
                     </td>
                 </tr>

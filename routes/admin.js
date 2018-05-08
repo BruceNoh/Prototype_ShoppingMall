@@ -208,7 +208,7 @@ router.post('/products/productsregist', loginRequired, upload.single('thumbnail'
         
         product.save(function(err){
             
-            res.redirect('/products/productslist');
+            res.redirect('/admin/products/productslist');
         });
     }
     // 데이터를 받고 저장
@@ -406,6 +406,21 @@ router.get('/products/edit/:id', loginRequired, csrfProtection, function(req, re
         }, function(err, product){
 
             res.render('admin/formedit', 
+        {
+            product : product,
+            csrfToken : req.csrfToken()
+        });
+    });
+});
+
+router.get('/products/adminproductedit/:id', loginRequired, csrfProtection, function(req, res){
+    // 수정할 제품을 찾는다.
+    ProductsModel.findOne(
+        {   // 아이디 값으로 찾는다.
+            id : req.params.id
+        }, function(err, product){
+
+            res.render('admin/adminproductedit', 
         {
             product : product,
             csrfToken : req.csrfToken()

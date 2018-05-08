@@ -17,13 +17,16 @@ router.get('/list', function(req, res){
 
         res.send('<script>alert("로그인이 필요한 서비스입니다.");location.href="/accounts/login"</script>');
     }else{
-      QnAModel.find({})
-        .sort({time: -1})
-        .exec(function(error, documents) {
-          if(error) res.status(500).json(error)
-          else res.render('qna/qnalist', {documents: documents})
+      QnAModel.find({}).sort("-time").exec(function(error, documents) {
+        
+        if(error){
+            res.status(500).json(error);
+          }else{
+            res.render('qna/qnalist', {documents: documents});
+            
+          } 
         })
-    }
+    } 
 });
 
 // GET Question Write
@@ -46,12 +49,15 @@ router.get('/write', loginRequired, csrfProtection, function(req, res){
 });
 
 router.post('/write', function(req, res) {
+  
   if(!req.isAuthenticated()) {
+    
     res.json({success: false, reason: 'auth'})
-    return
+    return;
   }
   var secret = (req.body.qnasecret === 'secret') ? true : false
   new QnAModel({
+    
     uid: req.session.passport.user._id,
     name: req.body.qnaname,
     category: req.body.qnacategory,
@@ -61,33 +67,55 @@ router.post('/write', function(req, res) {
     content: req.body.qnacontent,
     secret: secret
   }).save(function(error, document) {
-    if(error) res.status(500).json(error)
-    else res.redirect(document._id)
+    
+    if(error){
+
+      res.status(500).json(error);
+    }else{
+      
+      res.redirect(document._id);
+    } 
   })
 })
 
 router.get('/:id', function(req, res) {
+  
   QnAModel.findOne(
+    
     {_id: req.params.id},
-    function(error, document) {
-      if(error) res.status(500).json(error)
-      else {
-        /* 권한 관리 수정 필요 */
-        if(req.session.passport.user._id != '5ae816dc2920612ed44cbe01') {
-          if(document.secret && document.uid == req.session.passport.user._id) res.render('qna/qna', {document: document, user: null})
-          else if(document.secret && document.uid != req.session.passport.user._id) res.redirect('list')
-          else res.render('qna/qna', {document: document, user: null})
-        } else {
-          res.render('qna/qna', {document: document, user: req.session.passport.user})
+    
+      function(error, document) {
+        
+        if(error){
+          
+          res.status(500).json(error);
+        }else{
+          /* 권한 관리 수정 필요 */
+          if(req.session.passport.user._id != '5adec64c6c3f5c506074ca85') {
+            
+            if(document.secret && document.uid == req.session.passport.user._id){
+            
+              res.render('qna/qna', {document: document, user: null});
+            }else if(document.secret && document.uid != req.session.passport.user._id){
+            
+              res.redirect('list');
+            }else{
+            
+              res.render('qna/qna', {document: document, user: null});
+            } 
+          }else{
+
+            res.render('qna/qna', {document: document, user: req.session.passport.user})
+          }
         }
       }
-    }
-  )
+    )
 })
 
 router.post('/answer', function(req, res) {
   /* 권한 관리 수정 필요 */
-  if(req.session.passport.user._id == '5ae816dc2920612ed44cbe01') {
+  if(req.session.passport.user._id == '5adec64c6c3f5c506074ca85') {
+   
     QnAModel.findOneAndUpdate(
       {
         _id: req.body.id
@@ -105,8 +133,14 @@ router.post('/answer', function(req, res) {
         }
       },
       function(error, document) {
-        if(error) res.status(500).json(error)
-        else res.json({success: true})
+        if(error){
+
+          res.status(500).json(error);
+        }else{
+          
+          res.json({success: true});
+          //res.redirect("qna/5af113adc429b659247f3664");
+        } 
         // else {
         //   var answer = {
         //     user: {
@@ -122,6 +156,7 @@ router.post('/answer', function(req, res) {
       }
     )
   } else {
+
     res.json({success: false, reason: 'auth'})
   }
 })

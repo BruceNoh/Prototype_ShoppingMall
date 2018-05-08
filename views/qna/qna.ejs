@@ -21,10 +21,14 @@
     <td><%=document.content%></td>
   </tr>
 </table>
+
+<a href="/qna/list" class="btn btn-default">목록으로</a>
+
 <%
   if(document.answer) {
     time = document.answer.time;
 %>
+  <div id="comment_area">
   <table class="table">
     <tr>
       <th>작성자</th>
@@ -43,6 +47,7 @@
 <% if(user && !document.answer) { %>
   <textarea class="form-control" name="answer"></textarea>
   <button class="btn btn-primary">답변하기</button>
+  <a href="/qna/list" class="btn btn-default">목록으로</a><br/>
   <script>
     $('button').on('click', function(e) {
       e.preventDefault();
@@ -58,14 +63,26 @@
           content: $('textarea[name="answer"]').val()
         },
         success: function(data) {
-          if(data.success) alert('답변이 작성되었습니다.')
-          else alert('에러가 발생했습니다.')
+          if(data.success){
+            alert('답변이 작성되었습니다.');
+          }else{
+            alert('에러가 발생했습니다.');
+          } 
         },
         error: function(error) {
           console.error(error)
-          alert('에러가 발생했습니다.')
+          alert('에러가 발생했습니다.');
         }
-      })
+      }).done(function(args){
+
+                                console.log(args.message);
+                                // 댓글 작성하면 화면에 보이게 하기, admin.js에서 success 전달받은 후
+                                if(args.message === "success"){
+                                    $('#comment_area').append(
+                                        '<div>' + args.content + "( <a class='comment_delete' comment_id='" + args.id + "'>삭제</a> ) </div>"
+                                    );
+                                    $('#commentForm textarea[name=content]').val("");
+                                }
     })
   </script>
 <% } %>

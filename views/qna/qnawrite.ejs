@@ -1,7 +1,7 @@
 <% include ../header.ejs %>
     <form action="" method="post">
         <input type="hidden" name="_csrf" value="<%=csrfToken%>" /><!-- 토큰발행 -->
-        <input type="hidden" name="qnaname" value="<%=qna.user_name%>"/>
+        <!-- <input type="hidden" name="qnaname" value="<%=qna.user_name%>"/> -->
         <table class="table table-bordered">
             <tr>
                 <th colspan="2">1 : 1 Question</th>
@@ -26,6 +26,10 @@
                 <td><input type="text" name="qnaphone" class="form-control" value="<%=qna.user_phone%>"/></td>
             </tr>
             <tr>
+                <th>이   름</th>
+                <td><input type="text" name="qnaname" class="form-control" value="<%=qna.displayname%>"/></td>
+            </tr>
+            <tr>
                 <th>제   목</th>
                 <td><input type="text" name="qnatitle" class="form-control"/></td>
             </tr>
@@ -42,6 +46,7 @@
         </table>
 
         <button class="btn btn-primary">질문하기</button>
+        <a href="/qna/list" class="btn btn-default">목록으로</a><br/>
     </form>
 
     <!-- 스타일관련 -->
@@ -53,6 +58,7 @@
 
     <script>
       $('button').on('click', function(e) {
+
         e.preventDefault();
 
         if($('input[name=qnatitle]').val() === '' || $('textarea[name=qnacontent]').val() === '') {

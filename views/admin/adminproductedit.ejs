@@ -16,6 +16,13 @@
   <link href="../../../public/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
   <!-- Custom styles for this template-->
   <link href="../../../public/css/sb-admin.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!--폰트어섬추가 -->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--폰트어섬추가 -->
+    <!--bootstrap js 추가 -->
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -240,100 +247,49 @@
         <li class="breadcrumb-item">
           <a href="#">대시보드</a>
         </li>
-        <li class="breadcrumb-item active">상품리스트</li>
+        <li class="breadcrumb-item active">수정 상품</li>
       </ol>
       <!-- Example DataTables Card-->
       <div class="card mb-3">
         <div class="card-header">
-          <i class="fa fa-table"></i> 등록 상품 테이블</div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <div class="panel panel-default">
-        <div class="card text-white bg-success o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-shopping-cart"></i>
+          <i class="fa fa-table"></i> 수정 상품 상세보기</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <div class="panel panel-default">
+                  <form action="" method="post" enctype="multipart/form-data" id="editForm">
+                      <input type="hidden" name="_csrf" value="<%=csrfToken%>" /><!-- 토큰발행 -->
+                      <table class="table table-bordered">
+                          <tr>
+                              <th>제품명</th>
+                              <td><input type="text" name="name" class="form-control" value="<%=product.productname%>"/></td>
+                          </tr>
+                          <tr>
+                              <th>가격</th>
+                              <td><input type="text" name="price" class="form-control" value="<%=product.price%>"/></td>
+                          </tr>
+                          <tr>
+                              <th>섬네일</th>
+                              <td>
+                                  <input type="file" name="thumbnail" />
+                                  <% if(product.thumbnail){ %>
+                                  <a href="/uploads/<%=product.thumbnail%>" target="_blank">업로드 이미지 보기</a>
+                                  <% } %>
+                              </td>
+                          </tr>
+                          <tr>
+                              <th>설명</th>
+                              <td align="center">
+                                  <input type="text" name="description" class="form-control" value="<%-product.description%>"/>
+                              </td>
+                          </tr>
+                      </table>
+                      <a href="/admin/products/productslist" class="btn btn-default">목록으로</a>
+                      <button class="btn btn-primary">수정하기</button>
+                  </form>
               </div>
-              <div class="mr-5">상품명 : &nbsp; <%=product.productname%></div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-              <span class="float-left">상품등록일자 : &nbsp; 
-                <%=product.getDate.year%>년 
-                <%=product.getDate.month%>월 
-                <%=product.getDate.day%>일
-              </span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-            <% if(product.thumbnail){%>
-              <div class="card text-white bg-danger o-hidden h-100">
-              <div class="card-body">
-                  <div class="card-body-icon">
-                    <i class="fa fa-fw fa-support"></i>
-                  </div>
-                  <div class="mr-5">
-                    <p align="center">
-                        <img src="/uploads/<%=product.thumbnail%>" style="max-width: 100%"/>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            <% } %>
-
-            
-            <div class="card text-white bg-warning o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-list"></i>
-              </div>
-              <div class="mr-5" align="center"><h1>제품 상세설명</h1></div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-              <span class="float-center"><%-product.description%></span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-
-            <!-- 댓글영역  -->
-            <hr/>
-                    <div id="sibal"></div>
-                    <div id="comment_area">
-
-                        <% comments.forEach(function(comment){ %> 
-                            <div>
-                                <!-- 댓글 -->
-                                <div id="commentreple"> 
-                                    <%= comment.content %> 
-                                    ( <a class='comment_delete' comment_id='<%= comment.id %>'>댓글삭제</a> )
-                                </div>
-                            </div>    
-                        <% }); %>
-                        </div>
-                    <div>
-        <!-- 댓글영역  -->
-        <div>
-            <br/>
-            Comments
-            <form id="commentForm" action="" method="post">
-                <input type="hidden" name="product_id" value="<%=product.id%>" />
-                <textarea class="form-control" name="content"></textarea>
-                <button class="btn btn-primary" style="margin-top: 10px">댓글작성</button>
-            </form>
-        </div>
-        <!-- 댓글영역  -->
-        </div>
-    </div>
- 
-    <a href="/admin/products/productslist" class="btn btn-default">목록으로</a>
-    <a href="/admin/products/adminproductedit/<%=product.id%>" class="btn btn-primary">수정</a>
-
-    
           </div>
         </div>
+      </div>
         <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
       </div>
     </div>
@@ -381,128 +337,52 @@
     <!-- Custom scripts for this page-->
     <script src="../../../public/js/sb-admin-datatables.min.js"></script>
 
-      <script>
-        (function(){
-            // 댓글 작성
-                $(document).ready(function() {
-                    $('#commentForm').submit(function(){ // commentForm 전송함수
-                        var $contentVal = $(this).children('textarea[name=content]').val(); // 폼 데이터를 contentVal로 받는다.
-                        // alert($contentVal);
-                        // 댓글이 있을 경우
-                        if($contentVal){
+    <script>
 
-                            $.ajax({
-                                // 라우트에 있는 객체를 url과 매핑해서 실행
-                                url : '/admin/products/ajax_comment/insert',
-                                type : 'POST',
-                                data : $(this).serialize(), // 키필드에 맞게 세팅
-                            }).done(function(args){
+        // 위지윅에서 이미지 업로드 후 작성하기 전 remove하여 makeError 예방
+        $('#editForm').submit(function(){
+            // 해당 위지익 업로드 이미지를 리무브 해준다.
+            $('input[name=files]').remove();
+        });
 
-                                console.log(args.message);
-                                // 댓글 작성하면 화면에 보이게 하기, admin.js에서 success 전달받은 후
-                                if(args.message === "success"){
-                                    $('#comment_area').append(
-                                        '<div>' + args.content + "( <a class='comment_delete' comment_id='" + args.id + "'>삭제</a> ) </div>"
-                                    );
-                                    $('#commentForm textarea[name=content]').val("");
-                                }
-                            }).fail(function(args){
-                                
-                                console.log(args);
-                            });
-                        }else{
-                            alert('댓글을 입력해주세요');
-                        }
-                        return false;
-                    });
+        // 위지윅 이미지 데이터가 ajax 배열로 담겨서 업로드한다.
+        $(document).ready(function(){
 
-            // 리플 작성
-                    $('#repleForm2').submit(function(){ // repleForm2 전송함수
-                        var $repleVal = $(this).children('textarea[name=reple2]').val(); // 폼 데이터를 repleVal 받는다.
-                        // alert($repleVal);
-                        // 댓글이 있을 경우
-                        if($repleVal){
+            $('#summernote').summernote({
 
-                            $.ajax({
-                                // 라우트에 있는 객체를 url과 매핑해서 실행
-                                url : '/admin/products/ajax_comment/repleinsert',
-                                type : 'POST',
-                                data : $(this).serialize(), // 키필드에 맞게 세팅
-                            }).done(function(args){
-
-                                console.log(args.message);
-                                // 댓글 작성하면 화면에 보이게 하기, admin.js에서 success 전달받은 후
-                                if(args.message === "success"){
-                                    $('#sibal').append(
-                                        '<div>' + args.content + "( <a class='reple_delete' reple_id='" + args.id + "'>삭제</a> ) </div>"
-                                    );
-                                    $('#repleForm2 textarea[name=reple2]').val("");
-                                }
-                            }).fail(function(args){
-                                
-                                console.log(args);
-                            });
-                        }else{
-                            alert('리플을 입력해주세요');
-                        }
-                        return false;
-                    });
-
-            // 이 부분 설명 다시 필요함.
-            $(document).on('click' , '.comment_delete' , function(){
-                if(confirm('삭제하시겠습니까?')){ //확인창 예 눌렀을 시만 진행
-                    // 삭제할 때 댓글의 div까지 삭제해야 하기 때문에 클릭한 시점
-                    // parent().remove() 부모를 삭제한다.
-                    // self는 ajax의 url을 호출한다.
-                    var $self = $(this);
-                    $.ajax(
-                        {
-                            url: '/admin/products/ajax_comment/delete',
-                            type: 'POST',
-                            data: { 
-                                    comment_id : $self.attr('comment_id') 
-                                },
-                        }
-                    )
-                    .done(function() {
-                        $self.parent().remove();
-                        alert("삭제가 완료되었습니다.");
-                    })
-                    .fail(function(args) {
-                        console.log(args);
-                    });
+                lang: 'ko-KR',
+                height: 300,
+                callbacks : {
+                    onImageUpload : function(files){
+                        sendFile(files[0]);
+                    }
                 }
             });
+        });
 
-            // 리플 삭제
-            $(document).on('click' , '.reple_delete' , function(){
-                if(confirm('삭제하시겠습니까?')){ //확인창 예 눌렀을 시만 진행
-                    // 삭제할 때 댓글의 div까지 삭제해야 하기 때문에 클릭한 시점
-                    // parent().remove() 부모를 삭제한다.
-                    // self는 ajax의 url을 호출한다.
-                    var $self = $(this);
-                    $.ajax(
-                        {
-                            url: '/admin/products/ajax_comment/repledelete',
-                            type: 'POST',
-                            data: { 
-                                    reple_id : $self.attr('reple_id') 
-                                },
-                        }
-                    )
-                    .done(function() {
-                        $self.parent().remove();
-                        alert("삭제가 완료되었습니다.");
-                    })
-                    .fail(function(args) {
-                        console.log(args);
-                    });
+        // ajax로 데이터를 전달하는데 backend 라우팅으로 파일만 내보내고
+        // insertImage라는 api를 통해 url만 넣어주면 화면의 이미지를 볼 수 있다.
+        function sendFile(file, editor, welEditable){
+
+            data = new FormData();
+            data.append("thumbnail", file);
+            
+            $.ajax({
+
+                data : data,
+                type : "POST",
+                url : '/admin/products/ajax_summernote/',
+                cache : false,
+                contentType : false,
+                processData : false,
+                success : function(url){
+                    $('#summernote').summernote("insertImage", url);
                 }
             });
-          });
-        })();
+        }
     </script>
 
+    
   </div>
 </body>
 
