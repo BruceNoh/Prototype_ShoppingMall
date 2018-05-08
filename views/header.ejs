@@ -51,18 +51,17 @@
     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 }
     </script>    
+
 </head>
 <body>
 
     <div class="container" style="padding-top:10px;">
-        <nav class="navbar navbar-inverse"> 
-            <div class="container-fluid"> 
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
                 <div class="navbar-header">
                     <!-- 오른쪽 메뉴바 -->
                     <button type="button" class="collapsed navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-9" aria-expanded="false">
                         <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span> 
-                        <span class="icon-bar"></span> 
                         <span class="icon-bar"></span>
                     </button> 
                     <a href="/home" class="navbar-brand">Re:Mind Fashion</a>
@@ -81,8 +80,8 @@
                         <% if(isLogin){%>
                             <li ><a href="/accounts/logout" onclick="return confirm('로그아웃 하시겠습니까?')">LOGOUT</a></li>
                         <%}else{%>
-                            <li><a href="/accounts/join">JOIN</a></li> 
-                            <li><a href="/accounts/login">LOGIN</a></li>  
+                            <li><a href="/accounts/join">JOIN</a></li>
+                            <li><a href="/accounts/login">LOGIN</a></li>
                         <%}%>
                         <li><a href="/accounts/myinfo">MYINFO</a></li>
                         <li><a href="/cart">CART</a></li>
@@ -91,4 +90,3 @@
                     </ul>
                 </div>     
         </nav>
-    </div>

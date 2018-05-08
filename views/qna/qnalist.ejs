@@ -1,53 +1,40 @@
 <% include ../header.ejs %>
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th>Category</th>
+            <th>Title</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Answer</th>
+        </tr>
+        <% documents.forEach(function(currentValue) { %>
+          <%
+            time = new Date(currentValue.time)
+          %>
+          <tr>
+            <td>
+              <%=currentValue.category%>
+            </td>
+            <td>
+              <% if(currentValue.secret) { %>
+                <i class="fa fa-lock"></i>
+              <% } %>
+              <a href="<%=currentValue._id%>"><%=currentValue.title%></a>
+            </td>
+            <td>
+              <%=currentValue.name%>
+            </td>
+            <td>
+              <%=time.getFullYear()%>-<%=time.getMonth()+1%>-<%=time.getDate()%> <%=time.getHours()%>:<%=time.getMinutes()%>
+            </td>
+            <td>
+              <%=currentValue.answer?"Y":"N"%>
+            </td>
+          </tr>
+        <% }) %>
+    </table>
 
-    <div class="col-lg-12">
-        <div class="container" style="padding-top:15px;">
-            <table class="table table-bordered table-hover">
-                <tr>
-                    <th>No</th>
-                    <th>Title</th>
-                    <th>Content</th>
-                    <th>Name</th>
-                    <th>Date</th>
-                </tr>
-                <tr>
-                    <td>
-                        <a href="#"></a>
-                    </td>
-                    <td>
-                        <a href="#"></a>
-                    </td>
-                    <td>
-                        <a href="#"></a>
-                    </td>
-                    <td>
-                        <a href="#"></a>
-                    </td>
-                    <td>
-                        <a href="#"></a>
-                    </td>
-                </tr>
-            </table>
-            <a href="/qna/write" class="btn btn-default">Question</a>
-        </div>
-    </div>
 
-    
+    <a href="/qna/write" class="btn btn-default">Question</a>
 
 <% include ../footer.ejs %>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,0 +1,72 @@
+<% include ../header.ejs %>
+<table class="table table-bordered">
+  <tr>
+    <th>이   름</th>
+    <td><%=document.name%></td>
+  </tr>
+  <tr>
+    <th>분   류</th>
+    <td><%=document.category%></td>
+  </tr>
+  <tr>
+    <th>이   메   일</th>
+    <td><%=document.email%></td>
+  </tr>
+  <tr>
+    <th>제  목</th>
+    <td><%=document.title%></td>
+  </tr>
+  <tr>
+    <th>내  용</th>
+    <td><%=document.content%></td>
+  </tr>
+</table>
+<%
+  if(document.answer) {
+    time = document.answer.time;
+%>
+  <table class="table">
+    <tr>
+      <th>작성자</th>
+      <td><%=document.answer.user.name%></td>
+    </tr>
+    <tr>
+      <th>작성일</th>
+      <td><%=time.getFullYear()%>-<%=time.getMonth()+1%>-<%=time.getDate()%> <%=time.getHours()%>:<%=time.getMinutes()%></td>
+    </tr>
+    <tr>
+      <th>내용</th>
+      <td><%=document.answer.content%></td>
+    </tr>
+  </table>
+<% } %>
+<% if(user && !document.answer) { %>
+  <textarea class="form-control" name="answer"></textarea>
+  <button class="btn btn-primary">답변하기</button>
+  <script>
+    $('button').on('click', function(e) {
+      e.preventDefault();
+      if($('textarea[name="answer"]').val() == '') {
+        alert('답변을 입력하세요');
+        return;
+      }
+      $.ajax({
+        url: '/qna/answer',
+        type: 'post',
+        data: {
+          id: '<%=document._id%>',
+          content: $('textarea[name="answer"]').val()
+        },
+        success: function(data) {
+          if(data.success) alert('답변이 작성되었습니다.')
+          else alert('에러가 발생했습니다.')
+        },
+        error: function(error) {
+          console.error(error)
+          alert('에러가 발생했습니다.')
+        }
+      })
+    })
+  </script>
+<% } %>
+<% include ../footer.ejs %>
