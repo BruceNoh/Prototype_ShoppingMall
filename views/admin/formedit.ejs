@@ -21,11 +21,15 @@
             </tr>
             <tr>
                 <th>설명</th>
-                <td><input type="text" name="description" class="form-control" id="summernote" value="<%-product.description%>"/></td>
+                <td>
+                    <input type="text" name="description" class="form-control" id="summernote" value="<%-product.description%>"/>
+                    <textarea name="description" class="form-control" id="summernote"><%-product.description%></textarea>
+                </td>
             </tr>
         </table>
         <a href="/admin/products" class="btn btn-default">목록으로</a>
         <button class="btn btn-primary">수정하기</button>
+        
     </form>
 
     <script>

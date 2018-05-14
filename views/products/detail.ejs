@@ -3,11 +3,11 @@
     
     <div class="panel panel-default">
         <div class="panel-heading">
-            <%=product.name%>
+            상품명 : &nbsp; <%=product.productname%>
         </div>
         <div class="panel-body">
             <div style="padding-bottom: 10px">
-                작성일 : 
+                상품전시일 : 
                     <%=product.getDate.year%>년 
                     <%=product.getDate.month%>월 
                     <%=product.getDate.day%>일
@@ -28,8 +28,6 @@
             <form action="" method="post">
             <!--id-->
             <input type="hidden" name="productId" value="<%=product.id%>">
-
-
             <!-- 상품 추가구매 선택 시 가격 실시간 반영 -->
             <!--가격 -->
             <input type="hidden" name="price" value="<%=product.price%>">
@@ -37,6 +35,8 @@
             <input type="hidden" name="number" value="1">
             <!--선택한 갯수 * 가격 = 구매가격 -->
             <input type="hidden" name="amount" value="<%=product.price%>">
+            <!-- 상품 장바구니 DB에 담을 때 상품등록자 아이디도 함께 저장, 주문리스트를 위한 파라미터 -->
+            <input type="hidden" name="user_name" value="<%=product.user_name%>">
 
             <div>
                 <div class="printNum">갯수 : </div>
@@ -162,11 +162,13 @@ console.log('<%=product.productname%>')
 */
 
                 $.ajax({
+
                     url: '../cart/add',
                     type: 'post',
                     data: {
                         id: parseInt($('input[name=productId]').val()),
                         name: '<%=product.productname%>',
+                        user_name : '<%=product.user_name%>',
                         number: parseInt($('input[name=number]').val()),
                         amount: parseInt($('input[name=amount]').val()),
                         thumbnail: '<%=product.thumbnail%>'

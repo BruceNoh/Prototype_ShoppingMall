@@ -39,7 +39,9 @@ router.get('/' , loginRequired, function(req, res) {
     }
 });
 
+// 장바구니 데이터 디비에 저장
 router.post('/add', function(req, res) {
+
     UserModel.findOneAndUpdate(
         {
             id: req.session.passport.user.id
@@ -50,6 +52,7 @@ router.post('/add', function(req, res) {
                     _id: new mongoose.mongo.ObjectId(),
                     id: parseInt(req.body.id),
                     name: req.body.name,
+                    user_name : req.body.user_name,
                     number: parseInt(req.body.number),
                     amount: parseInt(req.body.amount),
                     thumbnail: req.body.thumbnail

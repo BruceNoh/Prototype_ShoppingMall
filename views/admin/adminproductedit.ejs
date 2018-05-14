@@ -61,7 +61,7 @@
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
           <a class="nav-link" href="/admin/products/productschart">
             <i class="fa fa-fw fa-area-chart"></i>
-            <span class="nav-link-text">Charts</span>
+            <span class="nav-link-text">통계차트</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
@@ -259,6 +259,60 @@
                   <form action="" method="post" enctype="multipart/form-data" id="editForm">
                       <input type="hidden" name="_csrf" value="<%=csrfToken%>" /><!-- 토큰발행 -->
                       <table class="table table-bordered">
+                          <tr align="center">
+                              <th colspan="2">카   테   고   리</th>
+                          </tr>
+                          <tr>
+                              <th style="width: 150px; vertical-align: middle;">카테고리</th>
+                              <td>
+                                <!-- <input type="text" name="category" class="form-control"/> -->
+                                <select name="category" class="form-control" style="height: 30px;"> 
+                                          <% if(product.category === "digital"){ %>
+                                          <option value="<%=product.category%>" selected="selected">디지털/가전</option> 
+                                          <% }else if(product.category === "furniture"){ %>
+                                          <option value="<%=product.category%>" selected="selected">가구/인테리어</option>
+                                          <% }else if(product.category === "kids"){ %>
+                                          <option value="<%=product.category%>" selected="selected">유아동</option>
+                                          <% }else if(product.category === "life"){ %>
+                                          <option value="<%=product.category%>" selected="selected">생활/식품</option>
+                                          <% }else if(product.category === "female"){ %>
+                                          <option value="<%=product.category%>" selected="selected">여성</option>
+                                          <% }else if(product.category === "male"){ %>
+                                          <option value="<%=product.category%>" selected="selected">남성</option>
+                                          <% }else if(product.category === "cosmetics"){ %>
+                                          <option value="<%=product.category%>" selected="selected">화장품</option>
+                                          <% }else if(product.category === "dress"){ %>
+                                          <option value="<%=product.category%>" selected="selected">의류</option>
+                                          <% }else if(product.category === "sports"){ %>
+                                          <option value="<%=product.category%>" selected="selected">스포츠/레저</option>
+                                          <% }else if(product.category === "game"){ %>
+                                          <option value="<%=product.category%>" selected="selected">게임/취미</option>
+                                          <% }else if(product.category === "ticket"){ %>
+                                          <option value="<%=product.category%>" selected="selected">티켓/음반</option>
+                                          <% }else if(product.category === "book"){ %>
+                                          <option value="<%=product.category%>" selected="selected">도서</option>
+                                          <% }else if(product.category === "animal"){ %>
+                                          <option value="<%=product.category%>" selected="selected">반려동물</option>
+                                          <% }else if(product.category === "other"){ %>
+                                          <option value="<%=product.category%>" selected="selected">기타</option>
+                                          <% } %>
+                                          <option value="digital">디지털/가전</option>
+                                          <option value="furniture">가구/인테리어</option> 
+                                          <option value="kids">유아동</option> 
+                                          <option value="life">생활/식품</option> 
+                                          <option value="female">여성</option> 
+                                          <option value="male">남성</option> 
+                                          <option value="cosmetics">화장품</option>
+                                          <option value="dress">의류</option> 
+                                          <option value="sports">스포츠/레저</option> 
+                                          <option value="game">게임/취미</option> 
+                                          <option value="ticket">티켓/음반</option> 
+                                          <option value="book">도서</option>
+                                          <option value="animal">반려동물</option>
+                                          <option value="other">기타</option>  
+                                </select>
+                              </td>
+                          </tr>
                           <tr>
                               <th>제품명</th>
                               <td><input type="text" name="name" class="form-control" value="<%=product.productname%>"/></td>
@@ -279,13 +333,15 @@
                           <tr>
                               <th>설명</th>
                               <td align="center">
-                                  <input type="text" name="description" class="form-control" value="<%-product.description%>"/>
+                                  <textarea name="description" class="form-control" id="summernote"><%-product.description%></textarea>
                               </td>
                           </tr>
                       </table>
                       <a href="/admin/products/productslist" class="btn btn-default">목록으로</a>
                       <button class="btn btn-primary">수정하기</button>
                   </form>
+
+                  
               </div>
           </div>
         </div>
@@ -337,52 +393,58 @@
     <!-- Custom scripts for this page-->
     <script src="../../../public/js/sb-admin-datatables.min.js"></script>
 
-    <script>
+    <!-- 스타일관련 -->
+                  <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/summernote.css" rel="stylesheet">
+                  <!-- 자바스크립트관련 -->
+                  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/summernote.js"></script>
+                  <!-- 한글관련 -->
+                  <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/lang/summernote-ko-KR.min.js"></script>
 
-        // 위지윅에서 이미지 업로드 후 작성하기 전 remove하여 makeError 예방
-        $('#editForm').submit(function(){
-            // 해당 위지익 업로드 이미지를 리무브 해준다.
-            $('input[name=files]').remove();
-        });
+                  <script>
 
-        // 위지윅 이미지 데이터가 ajax 배열로 담겨서 업로드한다.
-        $(document).ready(function(){
+                    // 위지윅에서 이미지 업로드 후 작성하기 전 remove하여 makeError 예방
+                    $('#editForm').submit(function(){
+                        // 해당 위지익 업로드 이미지를 리무브 해준다.
+                        $('input[name=files]').remove();
+                    });
 
-            $('#summernote').summernote({
+                    // 위지윅 이미지 데이터가 ajax 배열로 담겨서 업로드한다.
+                    $(document).ready(function(){
 
-                lang: 'ko-KR',
-                height: 300,
-                callbacks : {
-                    onImageUpload : function(files){
-                        sendFile(files[0]);
+                        $('#summernote').summernote({
+
+                            lang: 'ko-KR',
+                            height: 300,
+                            callbacks : {
+                                onImageUpload : function(files){
+                                    sendFile(files[0]);
+                                }
+                            }
+                        });
+                    });
+
+                    // ajax로 데이터를 전달하는데 backend 라우팅으로 파일만 내보내고
+                    // insertImage라는 api를 통해 url만 넣어주면 화면의 이미지를 볼 수 있다.
+                    function sendFile(file, editor, welEditable){
+
+                        data = new FormData();
+                        data.append("thumbnail", file);
+                        
+                        $.ajax({
+
+                            data : data,
+                            type : "POST",
+                            url : '/admin/products/ajax_summernote/',
+                            cache : false,
+                            contentType : false,
+                            processData : false,
+                            success : function(url){
+                                $('#summernote').summernote("insertImage", url);
+                            }
+                        });
                     }
-                }
-            });
-        });
+                </script>
 
-        // ajax로 데이터를 전달하는데 backend 라우팅으로 파일만 내보내고
-        // insertImage라는 api를 통해 url만 넣어주면 화면의 이미지를 볼 수 있다.
-        function sendFile(file, editor, welEditable){
-
-            data = new FormData();
-            data.append("thumbnail", file);
-            
-            $.ajax({
-
-                data : data,
-                type : "POST",
-                url : '/admin/products/ajax_summernote/',
-                cache : false,
-                contentType : false,
-                processData : false,
-                success : function(url){
-                    $('#summernote').summernote("insertImage", url);
-                }
-            });
-        }
-    </script>
-
-    
   </div>
 </body>
 

@@ -266,7 +266,7 @@ router.get('/products', paginate.middleware(5, 50), async (req,res) => {
 
 // GET 어드민 홈 등록제품 목록페이지
 router.get('/products/productslist', paginate.middleware(100, 100), async (req, res) => {
-
+    
     if(!req.isAuthenticated()){
 
         res.send('<script>alert("로그인이 필요한 서비스입니다.");location.href="/admin/adminlogin"</script>');
@@ -274,16 +274,16 @@ router.get('/products/productslist', paginate.middleware(100, 100), async (req, 
 
         const [ results, itemCount ] = await Promise.all([
             // sort : minus 하면 내림차순(날짜명)이다.
-            ProductsModel.find().sort('-created_at').limit(req.query.limit).skip(req.skip).exec(),
+            ProductsModel.find({"user_name" : req.user.user_id}).sort('-created_at').limit(req.query.limit).skip(req.skip).exec(),
             ProductsModel.count({})
         ]);
         const pageCount = Math.ceil(itemCount / req.query.limit);
         
         const pages = paginate.getArrayPages(req)( 4 , pageCount, req.query.page);
-        console.log(results);
+        
         res.render('admin/adminproductslist', 
             { 
-                products : results , 
+                products : results, 
                 pages: pages,
                 pageCount : pageCount,
             });
@@ -295,7 +295,7 @@ router.get('/products/productslist', paginate.middleware(100, 100), async (req, 
 router.get('/products/detail/:id' , function(req, res){
 
     var getData = async() => {
-        // async()함수를 만들고 return반환 후 처리가 다 되면 getData().then이 실행된다.
+        // async()함수를 만들고 return 반환 후 처리가 다 되면 getData().then이 실행된다.
         return {
             
             product : await ProductsModel.findOne( { 'id' :  req.params.id }).exec(),
@@ -359,8 +359,19 @@ router.get('/products/productsdetail/:id' , function(req, res){
 // GET 어드민 Chart
 router.get('/products/productschart' , function(req, res){
 
+    var date = new Date();
+    date.setDate(date.getDate() - 7);
+    date.setHours(0, 0, 0);
+      // 체크아웃 모델에서 검색, orderList 파라미터로 전달
+      CheckoutModel.find(
+        {
+          created_at: {
+            '$gte': date
+          }
+        },
+        function(err, orderList){
     // 체크아웃 모델에서 검색, orderList 파라미터로 전달
-    CheckoutModel.find( function(err, orderList){ 
+    // CheckoutModel.find( function(err, orderList){ 
 
         var barData = [];   // 넘겨줄 막대그래프 데이터 초기값 선언
         var pieData = [];   // 원차트에 넣어줄 데이터 삽입
@@ -671,14 +682,26 @@ router.get('/statistics', function(req, res){
 
 // GET 어드민 홈 통계
 router.get('/adminhome', adminRequired, function(req, res) {
-
+var date = new Date();
+  date.setDate(date.getDate() - 7);
+  date.setHours(0, 0, 0);
+    // 체크아웃 모델에서 검색, orderList 파라미터로 전달
+    CheckoutModel.find(
+      {
+        created_at: {
+          '$gte': date
+        }
+      },
+      function(err, orderList){
 
     // 체크아웃 모델에서 검색, orderList 파라미터로 전달
-    CheckoutModel.find( function(err, orderList){ 
+    // CheckoutModel.find( function(err, orderList){ 
 
         var barData = [];   // 넘겨줄 막대그래프 데이터 초기값 선언
         var pieData = [];   // 원차트에 넣어줄 데이터 삽입
         var cnt = 1;
+
+        
         // orderList에서 반복문을 돌려 order 파라미터로 전달
         orderList.forEach(function(order){
             // 08-10 형식으로 날짜를 받아온다
