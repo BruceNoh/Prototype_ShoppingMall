@@ -583,18 +583,18 @@ router.post('/products/ajax_summernote', loginRequired, upload.single('thumbnail
 });
 
 // 결제정보 리스트
-router.get('/order', function(req,res){
+router.get('/order', function(req, res){
 
     CheckoutModel.find( function(err, orderList){ //첫번째 인자는 err, 두번째는 받을 변수명
     
-        res.render( 'admin/orderList' , 
+        res.render( 'admin/orderList' ,   
             { orderList : orderList }
         );
     });
 });
 
 // GET 어드민 결제정보 리스트
-router.get('/products/orderlist', function(req,res){
+router.get('/products/orderlist', function(req, res){
 
     CheckoutModel.find( function(err, orderList){ //첫번째 인자는 err, 두번째는 받을 변수명
     

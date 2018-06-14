@@ -53,10 +53,17 @@ router.get('/' , function(req, res){
                 id: req.session.passport.user.id
             },
             function(error, document) {
-            if(error) res.status(500).json(error)
-                else res.render('checkout/index', {cartList: document.cart, totalAmount: 0, user: req.user})
-            }
-        )
+
+                if(error) res.status(500).json(error)
+                
+                else res.render('checkout/index', 
+                                    {
+                                        cartList: document.cart,
+                                        totalAmount: 0, 
+                                        user: req.user
+                                    })
+                              }
+                )
     } catch(error) {
         res.redirect('accounts/login')
     }
@@ -75,7 +82,7 @@ router.get('/complete', async (req,res)=>{
         merchant_uid : payData.data.merchant_uid,
         paid_amount : payData.data.amount,
         apply_num : payData.data.apply_num,
-        
+        cart_user_name : payData.data.cart_user_name,
         buyer_email : payData.data.buyer_email,
         buyer_name : payData.data.buyer_name,
         buyer_tel : payData.data.buyer_tel,
@@ -98,7 +105,7 @@ router.post('/complete', (req, res)=>{
         merchant_uid : req.body.merchant_uid,
         paid_amount : req.body.paid_amount,
         apply_num : req.body.apply_num,
-        
+        cart_user_name : req.body.cart_user_name,
         buyer_email : req.body.buyer_email,
         buyer_name : req.body.buyer_name,
         buyer_tel : req.body.buyer_tel,
@@ -124,7 +131,7 @@ router.post('/mobile_complete', (req,res)=>{
         merchant_uid : req.body.merchant_uid,
         paid_amount : req.body.paid_amount,
         apply_num : req.body.apply_num,
-        
+        cart_user_name : req.body.cart_user_name,
         buyer_email : req.body.buyer_email,
         buyer_name : req.body.buyer_name,
         buyer_tel : req.body.buyer_tel,

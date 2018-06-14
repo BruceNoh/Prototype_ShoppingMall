@@ -8,7 +8,7 @@ var CheckoutSchema = new Schema({
     merchant_uid : String, //상점 거래ID
     paid_amount : Number, //결제금액
     apply_num : String, //카드 승인번호
-
+    cart_user_name : String, // 판매자 이름
     buyer_email : String, //이메일
     buyer_name : String, //구매자 성함
     buyer_tel : String, //전화번호
