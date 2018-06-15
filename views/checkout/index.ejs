@@ -52,8 +52,13 @@
                 <tr>
                     <th>구매자이름</th>
                     <td>
-                        <input type="text" name="buyer_name" class="form-control" value="<%=user.user_name%>"/>
-                        <input type="text" name="cart_user_name" class="form-control"  placeholder="cart_user_name" value="<%-(cartList[0].user_name)%>"/>
+                        <input type="text" id="buyer_name" name="buyer_name" class="form-control" value="<%=user.user_name%>"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>상품판매자</th>
+                    <td>
+                        <input type="text" id="cart_user_name" name="cart_user_name" class="form-control"  placeholder="cart_user_name" value="<%=(cartList[0].user_name)%>"/>
                     </td>
                 </tr>
                 <tr>
@@ -96,15 +101,15 @@
 
 
 <script>
-
+    
     $(document).ready(function(){
-
+        
         $('#orderForm').submit(function(){
             // 총 결제금액
             var amount = <%=totalAmount%>;
             // 성공데이터를 받는다.
             var buyer_email = $('input[name=buyer_email]').val();
-            var cart_user_name = $('input[name=cart_user_name]').val();
+            var cart_username = $('input[name=cart_user_name]').val();
             var buyer_name = $('input[name=buyer_name]').val();
             var buyer_tel = $('input[name=buyer_tel]').val();
             var buyer_addr = $('input[name=buyer_addr]').val() + ' / ' +
@@ -113,7 +118,7 @@
             var IMP = window.IMP; 
             // iamport.kr의 내정보의 가맹점 식별코드를 의미한다.
             IMP.init('imp09327587'); 
-            console.log(cart_user_name +'99999999999999999999999999999999999999999999999999999999999');
+            
             //아임포트 사이트에서 받아온다( http://www.iamport.kr/ )
             IMP.request_pay(
                 {
@@ -122,7 +127,7 @@
                     merchant_uid : 'merchant_' + new Date().getTime(), // 결제아이디
                     name : '결제테스트', // 이름
                     amount : amount , // 총 결제금액
-                    cart_user_name : cart_user_name, // 상품판매자 이름
+                    cart_user_name : cart_username, // 상품판매자 이름
                     buyer_email : buyer_email, // 구매자 이메일
                     buyer_name : buyer_name, // 구매자 이름
                     buyer_tel : buyer_tel, // 구매자 전화번호
@@ -163,18 +168,18 @@
 
                         //     console.log(error); 
                         // });
-        
-                        $.ajax({
-                            url: '/cart/deleteAll',
-                            type: 'delete',
-                            success: function(data) {
-                                if(!data.success) alert('장바구니 데이터 삭제에 실패했습니다.')
-                                document.location.href = "/checkout/complete?imp_uid=" + rsp.imp_uid;
-                            },
-                            error: function(error) {
-                                alert('장바구니 데이터 삭제에 실패했습니다.')
-                            }
-                        })
+                        
+                            $.ajax({
+                                url: '/cart/deleteAll',
+                                type: 'delete',
+                                success: function(data) {
+                                    if(!data.success) alert('장바구니 데이터 삭제에 실패했습니다.')
+                                    document.location.href = "/checkout/complete?imp_uid=" + rsp.imp_uid;
+                                },
+                                error: function(error) {
+                                    alert('장바구니 데이터 삭제에 실패했습니다.')
+                                }
+                            })
                     } else {
 
                         let msg = '결제에 실패하였습니다.';

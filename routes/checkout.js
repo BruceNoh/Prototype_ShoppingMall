@@ -72,10 +72,11 @@ router.get('/' , function(req, res){
 
 // 아임포트에서 데이터를 조회해오는 함수
 router.get('/complete', async (req,res)=>{
-
+    
     var payData = await iamporter.findByImpUid(req.query.imp_uid);
     // 이 곳에서 아임포트와 내 디비에서 amount(총결제금액)이 일치하는지 비교하고
     // 저장처리 분기(checkout.save())
+    console.log(payData.data.cart_user_name + "complete");
     var checkout = new CheckoutModel({
     
         imp_uid : payData.data.imp_uid,
@@ -98,7 +99,7 @@ router.get('/complete', async (req,res)=>{
 
 // 결제처리 프로세스
 router.post('/complete', (req, res)=>{
-
+    console.log(req.body.cart_user_name + "process");
     var checkout = new CheckoutModel({
 
         imp_uid : req.body.imp_uid,
@@ -124,7 +125,7 @@ router.post('/complete', (req, res)=>{
 
 // 모바일 결제처리
 router.post('/mobile_complete', (req,res)=>{
-    
+    console.log(req.body.cart_user_name + "mobile");
     var checkout = new CheckoutModel({
         
         imp_uid : req.body.imp_uid,

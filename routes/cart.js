@@ -52,6 +52,7 @@ router.post('/add', function(req, res) {
                     _id: new mongoose.mongo.ObjectId(),
                     id: parseInt(req.body.id),
                     name: req.body.name,
+                    cart_user_name: req.body.cart_user_name,
                     user_name : req.body.user_name,
                     number: parseInt(req.body.number),
                     amount: parseInt(req.body.amount),
