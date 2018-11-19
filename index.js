@@ -12,6 +12,7 @@ var cookieParser = require('cookie-parser');
 
 //flash 메세지 관련
 var flash = require('connect-flash');
+
 //passport 로그인 관련
 var passport = require('passport');
 var session = require('express-session');
