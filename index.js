@@ -21,9 +21,9 @@ var fs = require('fs');
 var https = require('https');
 
 // https 키 세팅
-var privateKey  = fs.readFileSync('cert/server.key', 'utf8');
+var privateKey = fs.readFileSync('cert/server.key', 'utf8');
 var certificate = fs.readFileSync('cert/server.crt', 'utf8');
-var credentials = {key: privateKey, cert: certificate};
+var credentials = { key: privateKey, cert: certificate };
 
 // mongodb
 var mongoose = require('mongoose');
@@ -35,13 +35,19 @@ var db = mongoose.connection;
 // 접속 실패 시
 db.on('error', console.error);
 // 접속 성공 시
-db.once('open', function(){
+db.once('open', function () {
     console.log('mongodb connect');
 });
 // 몽구스로 해당 몽고디비 정보에 접속한다.
-var connect = mongoose.connect('mongodb://127.0.0.1:27017/hyperledgermall', { useMongoClient: true });
+var connection = mongoose.connect(
+    'mongodb://127.0.0.1:27017/hyperledgermall',
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }
+);
 // 1씩 증가하는 컬렉션 세팅
-autoIncrement.initialize(connect);
+autoIncrement.initialize(mongoose.connection);
 
 // 라우터 모듈을 로드
 var admin = require('./routes/admin');
@@ -85,16 +91,16 @@ var connectMongo = require('connect-mongo');
 var MongoStore = connectMongo(session);
 
 var sessionMiddleWare = session({
-    secret : 'hyperledgermall',
-    resave : false,
-    saveUninitialized : true,
-    cookie : {
+    secret: 'hyperledgermall',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
         // 지속시간
-        maxAge : 2000 * 60 * 60 
+        maxAge: 2000 * 60 * 60
     },
-    store : new MongoStore({
-        mongooseConnection : mongoose.connection,
-        ttl : 14 * 24 * 60 * 60
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection,
+        ttl: 14 * 24 * 60 * 60
     })
 });
 
@@ -107,7 +113,7 @@ app.use(passport.session());
 // flash 메세지 관련
 app.use(flash());
 
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
     // 템플릿 어디에서든 isLogin라는 것을 사용할 수 있다.
     // 때문에 어느 페이지에서든 로그인이 되었는지 안되었는지에 대한 체크가 가능하다.
     app.locals.isLogin = req.isAuthenticated();
@@ -121,7 +127,7 @@ app.use(function(req, res, next){
 
 // url, admin모듈 객체변수
 app.use('/home', home);
-app.use('/collections', collections); 
+app.use('/collections', collections);
 app.use('/admin', admin);
 app.use('/accounts', accounts);
 app.use('/auth', auth);
@@ -138,7 +144,7 @@ var server = httpsServer.listen(port);
 var listen = require('socket.io');
 var io = listen(server);
 
-io.use(function(socket, next){
+io.use(function (socket, next) {
 
     sessionMiddleWare(socket.request, socket.request.res, next);
 });
